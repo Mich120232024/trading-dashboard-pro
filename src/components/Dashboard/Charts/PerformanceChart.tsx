@@ -11,7 +11,7 @@ interface PerformanceChartProps {
   data: PerformanceData[];
 }
 
-const PerformanceChart: React.FC<PerformanceChartProps> = ({ data }) => {
+export default function PerformanceChart({ data }: PerformanceChartProps) {
   return (
     <div className="h-[400px] bg-gray-800 p-4 rounded-lg">
       <h3 className="text-white mb-4">Performance</h3>
@@ -52,6 +52,4 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({ data }) => {
       </ResponsiveContainer>
     </div>
   );
-};
-
-export default React.memo(PerformanceChart);
+}

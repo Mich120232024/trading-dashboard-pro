@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import TradeList from '../components/Dashboard/TradeList';
-import { PerformanceChart } from '../components/Dashboard/Charts/PerformanceChart';
-import { DrawdownChart } from '../components/Dashboard/Charts/DrawdownChart';
+import PerformanceChart from '../components/Dashboard/Charts/PerformanceChart';
+import DrawdownChart from '../components/Dashboard/Charts/DrawdownChart';
 
-// Sample data - replace with real data source
+// Sample data
 const sampleTrades = Array.from({ length: 20 }, (_, i) => ({
   id: `TR-${i + 1}`,
   type: ['Market', 'Limit', 'Stop'][i % 3],

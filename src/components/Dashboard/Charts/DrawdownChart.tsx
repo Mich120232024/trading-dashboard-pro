@@ -10,7 +10,7 @@ interface DrawdownChartProps {
   data: DrawdownData[];
 }
 
-const DrawdownChart: React.FC<DrawdownChartProps> = ({ data }) => {
+export default function DrawdownChart({ data }: DrawdownChartProps) {
   return (
     <div className="h-[400px] bg-gray-800 p-4 rounded-lg">
       <h3 className="text-white mb-4">Drawdown Analysis</h3>
@@ -43,7 +43,7 @@ const DrawdownChart: React.FC<DrawdownChartProps> = ({ data }) => {
           <Area
             type="monotone"
             dataKey="value"
-            stroke={(d: any) => d >= 0 ? '#60A5FA' : '#EF4444'}
+            stroke={(data: any) => data >= 0 ? '#60A5FA' : '#EF4444'}
             fill="url(#drawdownGradient)"
             strokeWidth={2}
           />
@@ -51,6 +51,4 @@ const DrawdownChart: React.FC<DrawdownChartProps> = ({ data }) => {
       </ResponsiveContainer>
     </div>
   );
-};
-
-export default React.memo(DrawdownChart);
+}
