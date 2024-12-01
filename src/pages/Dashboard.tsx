@@ -26,59 +26,51 @@ const sampleTrades = Array.from({ length: 20 }, (_, i) => ({
 
 const Dashboard: React.FC = () => {
   return (
-    <div className="dashboard-container">
-      <div className="sidebar">
-        <a href="#dashboard">Dashboard</a>
-        <a href="#analytics">Analytics</a>
-        <a href="#trades">Trades</a>
-        <a href="#active-trades">Active</a>
-        <a href="#history">History</a>
-        <a href="#pending">Pending</a>
-        <a href="#performance">Performance</a>
-        <a href="#risk">Risk</a>
-        <a href="#portfolio">Portfolio</a>
+    <div className="grid grid-cols-12 gap-6 p-6">
+      {/* Top Metrics - 4 per row */}
+      <div className="col-span-3 bg-gray-800 p-6 rounded-lg">
+        <h3 className="text-gray-400 text-sm">Portfolio Value</h3>
+        <p className="text-white text-2xl font-bold mt-2">$1,234,567</p>
+        <span className="text-green-500">+2.5%</span>
       </div>
-      <div className="main-content">
-        <div className="dashboard-header">
-          <h1>Dashboard</h1>
-        </div>
+      <div className="col-span-3 bg-gray-800 p-6 rounded-lg">
+        <h3 className="text-gray-400 text-sm">Daily P&L</h3>
+        <p className="text-white text-2xl font-bold mt-2">$12,345</p>
+        <span className="text-green-500">+1.2%</span>
+      </div>
+      <div className="col-span-3 bg-gray-800 p-6 rounded-lg">
+        <h3 className="text-gray-400 text-sm">Active Trades</h3>
+        <p className="text-white text-2xl font-bold mt-2">23</p>
+        <span className="text-yellow-500">5 pending</span>
+      </div>
+      <div className="col-span-3 bg-gray-800 p-6 rounded-lg">
+        <h3 className="text-gray-400 text-sm">Win Rate</h3>
+        <p className="text-white text-2xl font-bold mt-2">68%</p>
+        <span className="text-blue-500">+3% MoM</span>
+      </div>
 
-        {/* Top Metrics */}
-        <div className="dashboard-metric">
-          <h3>Portfolio Value</h3>
-          <p>$1,234,567</p>
-          <p>+2.5%</p>
+      {/* Charts - 2 per row */}
+      <div className="col-span-6 bg-gray-800 p-6 rounded-lg">
+        <div className="mb-4">
+          <h3 className="text-gray-400 text-sm">Performance Analysis</h3>
         </div>
-        <div className="dashboard-metric">
-          <h3>Daily P&L</h3>
-          <p>$12,345</p>
-          <p>+1.2%</p>
+        <PerformanceChart data={samplePerformanceData} />
+      </div>
+      <div className="col-span-6 bg-gray-800 p-6 rounded-lg">
+        <div className="mb-4">
+          <h3 className="text-gray-400 text-sm">Drawdown Analysis</h3>
         </div>
-        <div className="dashboard-metric">
-          <h3>Active Trades</h3>
-          <p>23</p>
-          <p>5 pending</p>
-        </div>
+        <DrawdownChart data={sampleDrawdownData} />
+      </div>
 
-        {/* Charts */}
-        <div className="chart-card">
-          <h3>Performance Chart</h3>
-          <PerformanceChart data={samplePerformanceData} />
-        </div>
-        <div className="chart-card">
-          <h3>Drawdown Chart</h3>
-          <DrawdownChart data={sampleDrawdownData} />
-        </div>
-        <div className="chart-card">
-          <h3>Volatility Surface Chart</h3>
-          <VolatilitySurfaceChart />
-        </div>
+      {/* Volatility Surface - full width */}
+      <div className="col-span-12 bg-gray-800 p-6 rounded-lg">
+        <VolatilitySurfaceChart />
+      </div>
 
-        {/* Trade List */}
-        <div className="table-container">
-          <h3>Trade List</h3>
-          <TradeList trades={sampleTrades} onTradeSelect={() => {}} />
-        </div>
+      {/* Trade List */}
+      <div className="col-span-12 bg-gray-800 p-6 rounded-lg">
+        <TradeList trades={sampleTrades} onTradeSelect={() => {}} />
       </div>
     </div>
   );
