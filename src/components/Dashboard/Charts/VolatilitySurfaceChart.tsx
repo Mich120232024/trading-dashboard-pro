@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 
 interface VolPoint {
   strike: number;
@@ -33,11 +34,24 @@ const generateVolData = (): VolPoint[] => {
   return data;
 };
 
+const createLabel = (text: string, position: THREE.Vector3): CSS2DObject => {
+  const div = document.createElement('div');
+  div.className = 'label';
+  div.textContent = text;
+  div.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+  div.style.color = 'white';
+  div.style.padding = '2px 4px';
+  div.style.borderRadius = '2px';
+  div.style.fontSize = '10px';
+  return new CSS2DObject(div);
+};
+
 const VolatilitySurfaceChart: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const labelRendererRef = useRef<CSS2DRenderer | null>(null);
   const controlsRef = useRef<OrbitControls | null>(null);
 
   useEffect(() => {
@@ -59,14 +73,22 @@ const VolatilitySurfaceChart: React.FC = () => {
     camera.position.set(2, 2, 2);
     camera.lookAt(0, 0, 0);
 
-    // Renderer setup
+    // WebGL Renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     rendererRef.current = renderer;
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
     containerRef.current.appendChild(renderer.domElement);
 
+    // Label Renderer
+    const labelRenderer = new CSS2DRenderer();
+    labelRendererRef.current = labelRenderer;
+    labelRenderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
+    labelRenderer.domElement.style.position = 'absolute';
+    labelRenderer.domElement.style.top = '0';
+    containerRef.current.appendChild(labelRenderer.domElement);
+
     // Controls
-    const controls = new OrbitControls(camera, renderer.domElement);
+    const controls = new OrbitControls(camera, labelRenderer.domElement);
     controlsRef.current = controls;
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
@@ -120,6 +142,25 @@ const VolatilitySurfaceChart: React.FC = () => {
 
       const color = colorScale(point.volatility / 20);
       colors.push(color.r, color.g, color.b);
+
+      // Add labels at key points
+      if (i % maturityCount === 0 || i % strikeCount === 0) {
+        const position = new THREE.Vector3(x, -0.2, z);
+        const label = createLabel(
+          `${point.strike.toFixed(2)}`,
+          position
+        );
+        scene.add(label);
+      }
+
+      if (i < maturityCount) {
+        const position = new THREE.Vector3(-1, -0.2, z);
+        const label = createLabel(
+          `${point.maturity}d`,
+          position
+        );
+        scene.add(label);
+      }
     });
 
     // Create faces
@@ -143,30 +184,57 @@ const VolatilitySurfaceChart: React.FC = () => {
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    // Add axes
+    // Add axes with labels
     const axesHelper = new THREE.AxesHelper(1);
     scene.add(axesHelper);
+
+    // Add axis labels
+    const xLabel = createLabel('Strike', new THREE.Vector3(1.2, 0, 0));
+    const yLabel = createLabel('Volatility', new THREE.Vector3(0, 1.2, 0));
+    const zLabel = createLabel('Maturity', new THREE.Vector3(0, 0, 1.2));
+    scene.add(xLabel);
+    scene.add(yLabel);
+    scene.add(zLabel);
 
     // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
       controls.update();
       renderer.render(scene, camera);
+      labelRenderer.render(scene, camera);
     };
     animate();
 
+    // Handle resize
+    const handleResize = () => {
+      if (!containerRef.current) return;
+      const width = containerRef.current.clientWidth;
+      const height = containerRef.current.clientHeight;
+      
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      
+      renderer.setSize(width, height);
+      labelRenderer.setSize(width, height);
+    };
+    window.addEventListener('resize', handleResize);
+
     // Cleanup
     return () => {
+      window.removeEventListener('resize', handleResize);
       renderer.dispose();
       geometry.dispose();
       material.dispose();
       if (containerRef.current) {
         containerRef.current.removeChild(renderer.domElement);
+        containerRef.current.removeChild(labelRenderer.domElement);
       }
     };
   }, []);
 
-  return <div ref={containerRef} className="h-[400px] w-full" />;
+  return (
+    <div ref={containerRef} className="h-[400px] w-full relative" />
+  );
 };
 
 export default VolatilitySurfaceChart;
