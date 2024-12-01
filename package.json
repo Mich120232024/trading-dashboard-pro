@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@react-three/drei": "^9.119.0",
@@ -10,14 +14,12 @@
     "@tailwindcss/forms": "^0.5.9",
     "@tailwindcss/typography": "^0.5.15",
     "@tanstack/react-virtual": "^3.10.9",
-    "amqplib": "^0.10.5",
     "d3": "^7.9.0",
     "framer-motion": "^10.18.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.28.0",
     "recharts": "^2.13.3",
-    "tailwind": "^4.0.0",
     "three": "^0.171.0"
   },
   "devDependencies": {
@@ -42,8 +44,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx",
-    "preview": "vite preview",
-    "build:css": "tailwindcss -i src/index.css -o dist/output.css"
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
