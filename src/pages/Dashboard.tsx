@@ -1,25 +1,10 @@
-import React, { useState } from "react";
-
-interface Trade {
-  id: string;
-  type: string;
-  status: string;
-  amount: number;
-  date: string;
-}
-import TradeList from "../components/Dashboard/TradeList";
+import React from "react";
+import VolatilitySurfaceChart from "../components/Dashboard/Charts/VolatilitySurfaceChart";
 import PerformanceChart from "../components/Dashboard/Charts/PerformanceChart";
 import DrawdownChart from "../components/Dashboard/Charts/DrawdownChart";
+import TradeList from "../components/Dashboard/TradeList";
 
 // Sample data
-const sampleTrades = Array.from({ length: 20 }, (_, i) => ({
-  id: `TR-${i + 1}`,
-  type: ["Market", "Limit", "Stop"][i % 3],
-  status: ["Active", "Completed", "Pending"][i % 3],
-  amount: Math.round(Math.random() * 10000),
-  date: new Date(Date.now() - i * 86400000).toLocaleDateString(),
-}));
-
 const samplePerformanceData = Array.from({ length: 30 }, (_, i) => ({
   date: new Date(Date.now() - i * 86400000).toLocaleDateString(),
   value: Math.round(Math.random() * 1000),
@@ -31,53 +16,62 @@ const sampleDrawdownData = Array.from({ length: 30 }, (_, i) => ({
   value: Math.round(Math.random() * 200 - 100),
 }));
 
+const sampleTrades = Array.from({ length: 20 }, (_, i) => ({
+  id: `TR-${i + 1}`,
+  type: ["Market", "Limit", "Stop"][i % 3],
+  status: ["Active", "Completed", "Pending"][i % 3],
+  amount: Math.round(Math.random() * 10000),
+  date: new Date().toISOString().split("T")[0],
+}));
+
 const Dashboard: React.FC = () => {
-  const [selectedTrade, setSelectedTrade] = useState<Trade | null>(null);
-
   return (
-    <div className="p-6 space-y-6">
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-gray-800 p-6 rounded-lg">
-          <h3 className="text-gray-400 text-sm font-medium">Portfolio Value</h3>
-          <p className="text-white text-2xl font-bold mt-2">$1,234,567</p>
-          <span className="text-green-500 text-sm">+2.5%</span>
-        </div>
-        <div className="bg-gray-800 p-6 rounded-lg">
-          <h3 className="text-gray-400 text-sm font-medium">Daily P&L</h3>
-          <p className="text-white text-2xl font-bold mt-2">$12,345</p>
-          <span className="text-green-500 text-sm">+1.2%</span>
-        </div>
-        <div className="bg-gray-800 p-6 rounded-lg">
-          <h3 className="text-gray-400 text-sm font-medium">Active Trades</h3>
-          <p className="text-white text-2xl font-bold mt-2">23</p>
-          <span className="text-blue-500 text-sm">5 pending</span>
-        </div>
+    <div className="dashboard-container">
+      <div className="sidebar">
+        <a href="#">Dashboard</a>
+        <a href="#">Analytics</a>
+        <a href="#">Trades</a>
       </div>
+      <div className="main-content">
+        {/* Top Metrics */}
+        <div className="dashboard-metric">
+          <h3>Portfolio Value</h3>
+          <p>$1,234,567</p>
+          <span>+2.5%</span>
+        </div>
+        <div className="dashboard-metric">
+          <h3>Daily P&L</h3>
+          <p>$12,345</p>
+          <span>+1.2%</span>
+        </div>
+        <div className="dashboard-metric">
+          <h3>Active Trades</h3>
+          <p>23</p>
+          <span>5 pending</span>
+        </div>
 
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <PerformanceChart data={samplePerformanceData} />
-        <DrawdownChart data={sampleDrawdownData} />
-      </div>
-
-      {/* Trade List */}
-      <div className="bg-gray-800 rounded-lg p-6">
-        <h2 className="text-white text-lg font-medium mb-4">Recent Trades</h2>
-        <TradeList trades={sampleTrades} onTradeSelect={setSelectedTrade} />
-      </div>
-      {selectedTrade && (
-        <div className="bg-gray-800 rounded-lg p-6 mt-6">
-          <h2 className="text-white text-lg font-medium mb-4">
-            Selected Trade
-          </h2>
-          <p className="text-white">ID: {selectedTrade.id}</p>
-          <p className="text-white">Type: {selectedTrade.type}</p>
-          <p className="text-white">Status: {selectedTrade.status}</p>
-          <p className="text-white">Amount: ${selectedTrade.amount}</p>
-          <p className="text-white">Date: {selectedTrade.date}</p>
+        {/* Charts */}
+        <div className="chart-group">
+          <div className="chart-card">
+            <h2>Performance Chart</h2>
+            <PerformanceChart data={samplePerformanceData} />
+          </div>
+          <div className="chart-card">
+            <h2>Drawdown Chart</h2>
+            <DrawdownChart data={sampleDrawdownData} />
+          </div>
+          <div className="chart-card">
+            <h2>Volatility Surface Chart</h2>
+            <VolatilitySurfaceChart />
+          </div>
         </div>
-      )}
+
+        {/* Trade List */}
+        <div className="table-container">
+          <h2>Trade List</h2>
+          <TradeList trades={sampleTrades} onTradeSelect={() => {}} />
+        </div>
+      </div>
     </div>
   );
 };

@@ -4,31 +4,189 @@
 
 :root {
   color-scheme: dark;
+  --bg-color: #1a202c; /* Background color */
+  --card-bg: #2d3748; /* Component background color */
+  --text-color: #ffffff; /* Primary text color */
+  --muted-text-color: #a0aec0; /* Muted text */
+  --accent-color: #4fd1c5; /* Accent color */
+  --hover-color: #2b6cb0; /* Hover effect */
 }
 
 body {
-  background-color: #1a202c; /* bg-gray-900 */
-  color: #ffffff; /* text-white */
+  background-color: var(--bg-color);
+  color: var(--text-color);
   margin: 0;
   padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-/* Custom scrollbar */
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 250px 1fr; /* Sidebar + Main content */
+  gap: 0;
+  height: 100%;
+  max-width: 100%; /* Utilize full width */
+  margin: 0 auto; /* Center the container */
+  padding: 20px; /* Add padding for spacing */
+}
+
+.sidebar {
+  background-color: var(--bg-color);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: var(--text-color);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.sidebar a:hover {
+  background-color: var(--hover-color);
+}
+
+.main-content {
+  background-color: var(--bg-color);
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr); /* 12-column layout for flexibility */
+  gap: 1.5rem;
+  overflow-y: auto;
+  grid-auto-rows: minmax(150px, auto);
+}
+
+.dashboard-header {
+  grid-column: span 12; /* Spans entire width */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-item {
+  background: #2a2a2a;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+}
+
+.dashboard-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Grid layout for cards and charts */
+.card-group {
+  grid-column: span 4; /* 4 columns for each card */
+  display: grid;
+  gap: 1rem;
+}
+
+.chart-group {
+  grid-column: span 12; /* Larger width for charts */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three charts side by side */
+  gap: 1.5rem;
+}
+
+.chart-card {
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 300px;
+}
+
+.chart-card canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Table */
+.table-container {
+  grid-column: span 12;
+  background: var(--card-bg);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--muted-text-color);
+  color: var(--text-color);
+}
+
+table th {
+  font-weight: 600;
+  color: var(--muted-text-color);
+}
+
+table tr:hover {
+  background-color: var(--hover-color);
+}
+
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
-  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #2d3748; /* bg-gray-800 */
+  background-color: var(--card-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #718096; /* bg-gray-600 */
-    border-radius: 9999px; /* rounded-full */
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #a0aec0; /* bg-gray-500 */
+  background-color: var(--muted-text-color);
+  border-radius: 9999px;
 }
 
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--hover-color);
+}
+
+canvas, svg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .main-content {
+    grid-template-columns: repeat(2, 1fr); /* Smaller grid */
+  }
+
+  .card-group, .chart-group, .table-container {
+    grid-column: span 2; /* Full-width for smaller screens */
+  }
+
+  .chart-group {
+    grid-template-columns: 1fr;
+  }
+}
