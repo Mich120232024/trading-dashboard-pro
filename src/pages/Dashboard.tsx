@@ -28,47 +28,55 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard-container">
       <div className="sidebar">
-        <a href="#">Dashboard</a>
-        <a href="#">Analytics</a>
-        <a href="#">Trades</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#trades">Trades</a>
+        <a href="#active-trades">Active</a>
+        <a href="#history">History</a>
+        <a href="#pending">Pending</a>
+        <a href="#performance">Performance</a>
+        <a href="#risk">Risk</a>
+        <a href="#portfolio">Portfolio</a>
       </div>
       <div className="main-content">
+        <div className="dashboard-header">
+          <h1>Dashboard</h1>
+        </div>
+
         {/* Top Metrics */}
         <div className="dashboard-metric">
           <h3>Portfolio Value</h3>
           <p>$1,234,567</p>
-          <span>+2.5%</span>
+          <p>+2.5%</p>
         </div>
         <div className="dashboard-metric">
           <h3>Daily P&L</h3>
           <p>$12,345</p>
-          <span>+1.2%</span>
+          <p>+1.2%</p>
         </div>
         <div className="dashboard-metric">
           <h3>Active Trades</h3>
           <p>23</p>
-          <span>5 pending</span>
+          <p>5 pending</p>
         </div>
 
         {/* Charts */}
-        <div className="chart-group">
-          <div className="chart-card">
-            <h2>Performance Chart</h2>
-            <PerformanceChart data={samplePerformanceData} />
-          </div>
-          <div className="chart-card">
-            <h2>Drawdown Chart</h2>
-            <DrawdownChart data={sampleDrawdownData} />
-          </div>
-          <div className="chart-card">
-            <h2>Volatility Surface Chart</h2>
-            <VolatilitySurfaceChart />
-          </div>
+        <div className="chart-card">
+          <h3>Performance Chart</h3>
+          <PerformanceChart data={samplePerformanceData} />
+        </div>
+        <div className="chart-card">
+          <h3>Drawdown Chart</h3>
+          <DrawdownChart data={sampleDrawdownData} />
+        </div>
+        <div className="chart-card">
+          <h3>Volatility Surface Chart</h3>
+          <VolatilitySurfaceChart />
         </div>
 
         {/* Trade List */}
         <div className="table-container">
-          <h2>Trade List</h2>
+          <h3>Trade List</h3>
           <TradeList trades={sampleTrades} onTradeSelect={() => {}} />
         </div>
       </div>
