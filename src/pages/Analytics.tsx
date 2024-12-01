@@ -1,7 +1,20 @@
-import React from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import PerformanceChart from '../components/Dashboard/Charts/PerformanceChart';
-import DrawdownChart from '../components/Dashboard/Charts/DrawdownChart';
+import React from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import DrawdownChart from "../components/Dashboard/Charts/DrawdownChart";
+
+// Performance View Component
+const PerformanceView: React.FC = () => (
+  <div className="space-y-6">
+    <div className="bg-gray-700 p-6 rounded-lg">
+      <h2 className="text-white text-lg font-medium mb-4">
+        Performance Overview
+      </h2>
+      <div className="h-64 flex items-center justify-center text-gray-400">
+        [Performance Chart Placeholder]
+      </div>
+    </div>
+  </div>
+);
 
 // Risk View Component
 const RiskView: React.FC = () => (
@@ -40,15 +53,9 @@ const PortfolioView: React.FC = () => (
 );
 
 // Sample data
-const samplePerformanceData = Array.from({ length: 30 }, (_, i) => ({
-  date: new Date(Date.now() - i * 86400000).toLocaleDateString(),
-  value: Math.round(Math.random() * 1000),
-  benchmark: Math.round(Math.random() * 900)
-}));
-
 const sampleDrawdownData = Array.from({ length: 30 }, (_, i) => ({
   date: new Date(Date.now() - i * 86400000).toLocaleDateString(),
-  value: Math.round(Math.random() * 200 - 100)
+  value: Math.round(Math.random() * 200 - 100),
 }));
 
 const Analytics: React.FC = () => {
@@ -56,16 +63,16 @@ const Analytics: React.FC = () => {
   const location = useLocation();
 
   const tabs = [
-    { id: 'performance', label: 'Performance', path: '/analytics/performance' },
-    { id: 'risk', label: 'Risk Analysis', path: '/analytics/risk' },
-    { id: 'portfolio', label: 'Portfolio', path: '/analytics/portfolio' }
+    { id: "performance", label: "Performance", path: "/analytics/performance" },
+    { id: "risk", label: "Risk Analysis", path: "/analytics/risk" },
+    { id: "portfolio", label: "Portfolio", path: "/analytics/portfolio" },
   ];
 
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-white">Analytics</h1>
-        
+
         <div className="flex items-center space-x-4">
           <select className="bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option>Last 30 Days</option>
@@ -84,9 +91,11 @@ const Analytics: React.FC = () => {
               onClick={() => navigate(tab.path)}
               className={`
                 py-4 px-1 border-b-2 font-medium text-sm
-                ${location.pathname === tab.path
-                  ? 'border-blue-500 text-blue-500'
-                  : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300'}
+                ${
+                  location.pathname === tab.path
+                    ? "border-blue-500 text-blue-500"
+                    : "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-300"
+                }
               `}
             >
               {tab.label}
