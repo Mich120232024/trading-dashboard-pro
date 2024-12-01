@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import React, { useEffect, useRef } from "react";
+import * as THREE from "three";
+// @ts-ignore
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 interface VolPoint {
   strike: number;
@@ -11,18 +12,20 @@ interface VolPoint {
 const generateVolData = () => {
   const data: VolPoint[] = [];
   // EUR/USD typical vol surface
-  for (let k = 0.8; k <= 1.2; k += 0.02) { // strikes from 0.8 to 1.2
-    for (let t = 1; t <= 365; t += 7) { // maturities from 1 to 365 days
+  for (let k = 0.8; k <= 1.2; k += 0.02) {
+    // strikes from 0.8 to 1.2
+    for (let t = 1; t <= 365; t += 7) {
+      // maturities from 1 to 365 days
       const atmVol = 8; // base ATM vol
       const skew = -2 * Math.log(k); // negative skew for FX
-      const term = 0.5 * Math.log(t/30); // term structure
+      const term = 0.5 * Math.log(t / 30); // term structure
       const smile = 2 * (k - 1) * (k - 1); // vol smile
-      
+
       const vol = atmVol + skew + term + smile;
       data.push({
         strike: k,
         maturity: t,
-        volatility: Math.max(1, Math.min(20, vol)) // cap between 1% and 20%
+        volatility: Math.max(1, Math.min(20, vol)), // cap between 1% and 20%
       });
     }
   }
@@ -37,7 +40,7 @@ const VolatilitySurfaceChart: React.FC = () => {
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#1f2937');
+    scene.background = new THREE.Color("#1f2937");
 
     // Camera setup
     const camera = new THREE.PerspectiveCamera(
@@ -50,7 +53,10 @@ const VolatilitySurfaceChart: React.FC = () => {
 
     // Renderer setup
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
+    renderer.setSize(
+      containerRef.current.clientWidth,
+      containerRef.current.clientHeight
+    );
     containerRef.current.appendChild(renderer.domElement);
 
     // Controls
@@ -68,7 +74,7 @@ const VolatilitySurfaceChart: React.FC = () => {
     // Generate surface geometry
     const volData = generateVolData();
     const geometry = new THREE.PlaneGeometry(2, 2, 50, 50);
-    
+
     // Create surface material with custom colors
     const material = new THREE.MeshPhongMaterial({
       vertexColors: true,
@@ -83,20 +89,22 @@ const VolatilitySurfaceChart: React.FC = () => {
     for (let i = 0; i < positions.count; i++) {
       const x = positions.getX(i);
       const z = positions.getZ(i);
-      
+
       // Map x,z to strike,maturity
       const strike = 1 + x * 0.2; // center around ATM
       const maturity = 180 + z * 180; // 0-360 days
-      
+
       // Find nearest vol point
-      const vol = volData.find(p => 
-        Math.abs(p.strike - strike) < 0.02 && 
-        Math.abs(p.maturity - maturity) < 7
-      )?.volatility || 10;
-      
+      const vol =
+        volData.find(
+          (p) =>
+            Math.abs(p.strike - strike) < 0.02 &&
+            Math.abs(p.maturity - maturity) < 7
+        )?.volatility || 10;
+
       // Set height based on volatility
       positions.setY(i, (vol - 10) * 0.05);
-      
+
       // Color based on volatility
       const t = (vol - 5) / 15; // normalize to 0-1
       if (t < 0.5) {
@@ -112,7 +120,7 @@ const VolatilitySurfaceChart: React.FC = () => {
       }
     }
 
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
     geometry.computeVertexNormals();
 
     const mesh = new THREE.Mesh(geometry, material);
@@ -135,16 +143,16 @@ const VolatilitySurfaceChart: React.FC = () => {
       if (!containerRef.current) return;
       const width = containerRef.current.clientWidth;
       const height = containerRef.current.clientHeight;
-      
+
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Cleanup
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
       renderer.dispose();
       geometry.dispose();
       material.dispose();
@@ -152,7 +160,12 @@ const VolatilitySurfaceChart: React.FC = () => {
     };
   }, []);
 
-  return <div ref={containerRef} className="h-[400px] w-full bg-gray-800 rounded-lg" />;
+  return (
+    <div
+      ref={containerRef}
+      className="h-[400px] w-full bg-gray-800 rounded-lg"
+    />
+  );
 };
 
 export default VolatilitySurfaceChart;

@@ -1,10 +1,9 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import MainLayout from './components/Layout/MainLayout';
-import Dashboard from './pages/Dashboard';
-import Trades from './pages/Trades';
-import Analytics from './pages/Analytics';
-import TimeSeriesAnalysis from './pages/TimeSeriesAnalysis';
+import { Routes, Route, Navigate } from "react-router-dom";
+import MainLayout from "./components/Layout/MainLayout";
+import Dashboard from "./pages/Dashboard";
+import Trades from "./pages/Trades";
+import Analytics from "./pages/Analytics";
+import TimeSeriesAnalysis from "./pages/TimeSeriesAnalysis";
 
 const App = () => {
   return (

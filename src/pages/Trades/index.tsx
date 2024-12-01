@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import TradeExecution from '../../components/Dashboard/TradeExecution';
-import MarketDepthChart from '../../components/Dashboard/Charts/MarketDepthChart';
-import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/24/solid';
+import React, { useState } from "react";
+import TradeExecution from "../../components/Dashboard/TradeExecution";
+import MarketDepthChart from "../../components/Dashboard/Charts/MarketDepthChart";
+import { ArrowUpIcon, ArrowDownIcon } from "@heroicons/react/24/solid";
 
 interface Trade {
   id: string;
   symbol: string;
   type: string;
-  direction: 'buy' | 'sell';
+  direction: "buy" | "sell";
   amount: number;
   openPrice: number;
   currentPrice: number;
@@ -18,35 +17,34 @@ interface Trade {
 }
 
 const Trades: React.FC = () => {
-  const location = useLocation();
-  const [selectedSymbol, setSelectedSymbol] = useState('EUR/USD');
-  
+  const [selectedSymbol, setSelectedSymbol] = useState("EUR/USD");
+
   // Mock active trades
   const trades: Trade[] = [
     {
-      id: 'T1',
-      symbol: 'EUR/USD',
-      type: 'Market',
-      direction: 'buy',
+      id: "T1",
+      symbol: "EUR/USD",
+      type: "Market",
+      direction: "buy",
       amount: 100000,
-      openPrice: 1.0990,
-      currentPrice: 1.1010,
+      openPrice: 1.099,
+      currentPrice: 1.101,
       pnl: 200,
-      status: 'open',
-      timestamp: new Date().toISOString()
+      status: "open",
+      timestamp: new Date().toISOString(),
     },
     {
-      id: 'T2',
-      symbol: 'GBP/USD',
-      type: 'Limit',
-      direction: 'sell',
+      id: "T2",
+      symbol: "GBP/USD",
+      type: "Limit",
+      direction: "sell",
       amount: 50000,
-      openPrice: 1.2650,
-      currentPrice: 1.2640,
+      openPrice: 1.265,
+      currentPrice: 1.264,
       pnl: 50,
-      status: 'open',
-      timestamp: new Date().toISOString()
-    }
+      status: "open",
+      timestamp: new Date().toISOString(),
+    },
   ];
 
   return (
@@ -72,9 +70,9 @@ const Trades: React.FC = () => {
 
         {/* Trade Execution */}
         <div>
-          <TradeExecution 
+          <TradeExecution
             symbol={selectedSymbol}
-            currentPrice={1.1000}
+            currentPrice={1.1}
             spread={0.0002}
           />
         </div>
@@ -87,35 +85,80 @@ const Trades: React.FC = () => {
           <table className="min-w-full divide-y divide-gray-700">
             <thead>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Symbol</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Type</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Direction</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Amount</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Open Price</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Current Price</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">P&L</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  ID
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Symbol
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Type
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Direction
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Amount
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Open Price
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Current Price
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  P&L
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-700">
               {trades.map((trade) => (
                 <tr key={trade.id} className="hover:bg-gray-700">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">{trade.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">{trade.symbol}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">{trade.type}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <span className={`flex items-center ${trade.direction === 'buy' ? 'text-green-500' : 'text-red-500'}`}>
-                      {trade.direction === 'buy' ? <ArrowUpIcon className="w-4 h-4 mr-1" /> : <ArrowDownIcon className="w-4 h-4 mr-1" />}
+                    {trade.id}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    {trade.symbol}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    {trade.type}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <span
+                      className={`flex items-center ${
+                        trade.direction === "buy"
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {trade.direction === "buy" ? (
+                        <ArrowUpIcon className="w-4 h-4 mr-1" />
+                      ) : (
+                        <ArrowDownIcon className="w-4 h-4 mr-1" />
+                      )}
                       {trade.direction.toUpperCase()}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">{trade.amount.toLocaleString()}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">{trade.openPrice.toFixed(4)}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">{trade.currentPrice.toFixed(4)}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <span className={trade.pnl >= 0 ? 'text-green-500' : 'text-red-500'}>
-                      {trade.pnl >= 0 ? '+' : ''}{trade.pnl.toFixed(2)}
+                    {trade.amount.toLocaleString()}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    {trade.openPrice.toFixed(4)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    {trade.currentPrice.toFixed(4)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <span
+                      className={
+                        trade.pnl >= 0 ? "text-green-500" : "text-red-500"
+                      }
+                    >
+                      {trade.pnl >= 0 ? "+" : ""}
+                      {trade.pnl.toFixed(2)}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
