@@ -1,5 +1,12 @@
-import React from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 interface DrawdownData {
   date: string;
@@ -17,20 +24,13 @@ export default function DrawdownChart({ data }: DrawdownChartProps) {
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-          <XAxis 
-            dataKey="date" 
-            stroke="#9CA3AF"
-            style={{ fontSize: '12px' }}
-          />
-          <YAxis 
-            stroke="#9CA3AF"
-            style={{ fontSize: '12px' }}
-          />
-          <Tooltip 
-            contentStyle={{ 
-              backgroundColor: '#1F2937',
-              border: '1px solid #374151',
-              borderRadius: '4px'
+          <XAxis dataKey="date" stroke="#9CA3AF" style={{ fontSize: "12px" }} />
+          <YAxis stroke="#9CA3AF" style={{ fontSize: "12px" }} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#1F2937",
+              border: "1px solid #374151",
+              borderRadius: "4px",
             }}
           />
           <defs>
@@ -43,7 +43,7 @@ export default function DrawdownChart({ data }: DrawdownChartProps) {
           <Area
             type="monotone"
             dataKey="value"
-            stroke={(data: any) => data >= 0 ? '#60A5FA' : '#EF4444'}
+            stroke="#60A5FA"
             fill="url(#drawdownGradient)"
             strokeWidth={2}
           />
