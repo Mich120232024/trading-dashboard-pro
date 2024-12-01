@@ -9,18 +9,20 @@ const App = () => {
     <MainLayout>
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/trades" element={<Trades />}>
-          <Route path="active" element={<Trades view="active" />} />
-          <Route path="history" element={<Trades view="history" />} />
-          <Route path="pending" element={<Trades view="pending" />} />
-          <Route path="" element={<Navigate to="active" replace />} />
+        
+        {/* Trades routes */}
+        <Route path="/trades">
+          <Route index element={<Navigate to="/trades/active" replace />} />
+          <Route path="*" element={<Trades />} />
         </Route>
-        <Route path="/analytics" element={<Analytics />}>
-          <Route path="performance" element={<Analytics view="performance" />} />
-          <Route path="risk" element={<Analytics view="risk" />} />
-          <Route path="portfolio" element={<Analytics view="portfolio" />} />
-          <Route path="" element={<Navigate to="performance" replace />} />
+
+        {/* Analytics routes */}
+        <Route path="/analytics">
+          <Route index element={<Navigate to="/analytics/performance" replace />} />
+          <Route path="*" element={<Analytics />} />
         </Route>
+
+        {/* Catch all route */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </MainLayout>
