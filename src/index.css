@@ -6,32 +6,23 @@
   :root {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
-
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-
+    --ring: var(--primary);
     --radius: 0.75rem;
   }
 }
@@ -48,111 +39,186 @@
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(217.2, 32.6%, 17.5%, 0.1);
-  border-radius: 4px;
+  background: rgba(30, 41, 59, 0.2);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(217.2, 32.6%, 17.5%, 0.5);
-  border-radius: 4px;
+  background: rgba(71, 85, 105, 0.5);
+  border-radius: 3px;
+  transition: all 0.2s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(217.2, 32.6%, 17.5%, 0.7);
+  background: rgba(71, 85, 105, 0.8);
 }
 
-/* Card Transitions */
-.card-transition {
-  @apply transition-all duration-300 ease-in-out;
+/* Modern Card Styles */
+.card-modern {
+  @apply bg-gray-800/50 backdrop-blur-md border border-gray-700/50 shadow-lg;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover Effects */
-.hover-scale {
-  @apply transition-transform duration-200 hover:scale-[1.02];
-}
-
-/* Data Tables */
-.data-table {
-  @apply w-full border-collapse;
-}
-
-.data-table th,
-.data-table td {
-  @apply px-4 py-2 border-b border-gray-700 text-left;
-}
-
-.data-table th {
-  @apply bg-gray-800 text-gray-300 font-medium;
-}
-
-.data-table tbody tr {
-  @apply hover:bg-gray-800/50 transition-colors;
-}
-
-/* Chart Container */
-.chart-container {
-  @apply rounded-lg bg-gray-800/50 p-4 backdrop-blur-sm;
-}
-
-/* Stats Card */
-.stats-card {
-  @apply bg-gray-800/90 rounded-lg p-6 hover:bg-gray-800 transition-colors;
-  backdrop-filter: blur(8px);
+.card-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.3);
 }
 
 /* Gradient Text */
 .gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500;
+}
+
+/* Animated Button */
+.button-animated {
+  @apply relative overflow-hidden transition-all duration-200;
+}
+
+.button-animated::after {
+  content: '';
+  @apply absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-200;
+}
+
+.button-animated:hover::after {
+  @apply opacity-100;
 }
 
 /* Glass Effect */
 .glass-effect {
-  @apply bg-gray-800/40 backdrop-blur-md border border-gray-700/50 shadow-xl;
+  @apply bg-gray-800/40 backdrop-blur-md border border-gray-700/50;
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* Loading Animation */
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(1.2); opacity: 0; }
+}
+
+.loading-ring {
+  @apply relative;
+}
+
+.loading-ring::before {
+  content: '';
+  @apply absolute inset-0 rounded-full;
+  animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  border: 2px solid var(--primary);
+}
+
+/* Chart Styles */
+.chart-container {
+  @apply p-4 rounded-lg bg-gray-800/50 backdrop-blur-md border border-gray-700/50;
+  transition: transform 0.2s ease;
+}
+
+.chart-container:hover {
+  transform: scale(1.01);
+}
+
+/* Navigation Item */
+.nav-item {
+  @apply flex items-center px-4 py-2 rounded-lg transition-all duration-200;
+}
+
+.nav-item:not(.active):hover {
+  @apply bg-gray-700/50 transform scale-[1.02];
+}
+
+.nav-item.active {
+  @apply bg-blue-500/20 text-blue-500;
+}
+
+/* Table Styles */
+.table-modern {
+  @apply w-full border-collapse;
+}
+
+.table-modern th {
+  @apply px-4 py-2 text-left text-gray-400 font-medium border-b border-gray-700;
+}
+
+.table-modern td {
+  @apply px-4 py-2 border-b border-gray-700/50;
+}
+
+.table-modern tbody tr {
+  @apply transition-colors duration-200;
+}
+
+.table-modern tbody tr:hover {
+  @apply bg-gray-700/30;
+}
+
+/* Tooltip */
+.tooltip {
+  @apply relative inline-block;
+}
+
+.tooltip::before {
+  content: attr(data-tip);
+  @apply absolute invisible opacity-0 transition-all duration-200
+    bg-gray-800 text-white text-sm rounded-md py-1 px-2 -top-8 left-1/2 transform -translate-x-1/2;
+}
+
+.tooltip:hover::before {
+  @apply visible opacity-100;
+}
+
+/* Animation Utilities */
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Status Indicators */
+.status-dot {
+  @apply w-2 h-2 rounded-full;
+}
+
+.status-dot.active {
+  @apply bg-green-500;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Input Styles */
+.input-modern {
+  @apply bg-gray-800/50 border border-gray-700/50 rounded-lg px-4 py-2
+    focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-200;
 }
 
 /* Button Styles */
-.button-primary {
+.btn-primary {
   @apply px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg
-    transition-colors duration-200 flex items-center justify-center gap-2
-    shadow-lg hover:shadow-blue-500/20;
+    transition-all duration-200 flex items-center justify-center gap-2
+    hover:shadow-lg hover:shadow-blue-500/20;
 }
 
-.button-secondary {
+.btn-secondary {
   @apply px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-lg
-    transition-colors duration-200 flex items-center justify-center gap-2
-    shadow-lg hover:shadow-gray-500/20;
-}
-
-/* Loading Animations */
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: .5; }
-}
-
-.animate-pulse-slow {
-  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Value Changes */
-.value-increase {
-  @apply text-green-500 transition-colors duration-300;
-}
-
-.value-decrease {
-  @apply text-red-500 transition-colors duration-300;
-}
-
-/* Card Overflow */
-.card-overflow {
-  @apply overflow-hidden hover:overflow-auto transition-all duration-300;
-}
-
-/* Smooth Number Transitions */
-.number-transition {
-  @apply transition-all duration-300 ease-out;
+    transition-all duration-200 flex items-center justify-center gap-2
+    hover:shadow-lg hover:shadow-gray-500/20;
 }
