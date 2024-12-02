@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ChartBarIcon, ArrowTrendingUpIcon, ChartPieIcon, CogIcon, BeakerIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
+import { BarChart2 } from 'lucide-react';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -17,6 +18,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     { path: '/fx-portfolio', label: 'FX Portfolio', icon: CurrencyDollarIcon },
     { path: '/analytics', label: 'Analytics', icon: ChartPieIcon },
     { path: '/timeseries', label: 'Time Series', icon: BeakerIcon },
+    { path: '/powerbi', label: 'PowerBI Analytics', icon: BarChart2 },
   ];
 
   return (
@@ -41,7 +43,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 key={item.path}
                 onClick={() => navigate(item.path)}
                 className={`
-                  w-full flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700
+                  w-full flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 transition-colors duration-200
                   ${location.pathname === item.path ? 'bg-gray-700 text-white' : ''}
                 `}
               >
@@ -55,7 +57,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <div className="absolute bottom-0 w-full p-4 border-t border-gray-700">
           <button 
             onClick={() => navigate('/settings')}
-            className="w-full flex items-center text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-lg"
+            className="w-full flex items-center text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors duration-200"
           >
             <CogIcon className="w-5 h-5" />
             {!collapsed && <span className="ml-3">Settings</span>}
