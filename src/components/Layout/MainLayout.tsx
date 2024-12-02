@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ChartBarIcon, ArrowTrendingUpIcon, ChartPieIcon, CogIcon, BeakerIcon } from '@heroicons/react/24/outline';
+import { ChartBarIcon, ArrowTrendingUpIcon, ChartPieIcon, CogIcon, BeakerIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -14,6 +14,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const navItems = [
     { path: '/', label: 'Dashboard', icon: ChartBarIcon },
     { path: '/trades', label: 'Trades', icon: ArrowTrendingUpIcon },
+    { path: '/fx-portfolio', label: 'FX Portfolio', icon: CurrencyDollarIcon },
     { path: '/analytics', label: 'Analytics', icon: ChartPieIcon },
     { path: '/timeseries', label: 'Time Series', icon: BeakerIcon },
   ];
