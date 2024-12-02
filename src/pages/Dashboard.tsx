@@ -5,6 +5,9 @@ import TradeExecution from '../components/Dashboard/TradeExecution';
 import TradeList from '../components/Dashboard/TradeList';
 import Portfolio from '../components/Dashboard/Portfolio';
 import Booking from '../components/Dashboard/Booking';
+import MarketData from '../components/Dashboard/MarketData';
+import RiskAnalysis from '../components/Dashboard/RiskAnalysis';
+import OrderHistory from '../components/Dashboard/OrderHistory';
 
 interface Trade {
   id: string;
@@ -79,6 +82,9 @@ const Dashboard: React.FC = () => {
           <span className="text-blue-500 text-sm">+3% MoM</span>
         </div>
       </div>
+
+      {/* Market Data - Always visible */}
+      <MarketData />
 
       {/* Navigation Tabs */}
       <div className="flex space-x-4 border-b border-gray-700">
@@ -192,13 +198,21 @@ const Dashboard: React.FC = () => {
       {activeTab === 'portfolio' && (
         <div className="space-y-6">
           <Portfolio />
+          <RiskAnalysis />
         </div>
       )}
 
       {/* Booking View */}
       {activeTab === 'booking' && (
-        <div className="max-w-2xl mx-auto">
-          <Booking />
+        <div className="space-y-6">
+          <div className="grid grid-cols-12 gap-6">
+            <div className="col-span-5">
+              <Booking />
+            </div>
+            <div className="col-span-7">
+              <OrderHistory />
+            </div>
+          </div>
         </div>
       )}
     </div>
