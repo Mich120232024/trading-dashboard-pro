@@ -3,6 +3,8 @@ import VolatilitySurfaceChart from '../components/Dashboard/Charts/VolatilitySur
 import MarketDepthChart from '../components/Dashboard/Charts/MarketDepthChart';
 import TradeExecution from '../components/Dashboard/TradeExecution';
 import TradeList from '../components/Dashboard/TradeList';
+import Portfolio from '../components/Dashboard/Portfolio';
+import Booking from '../components/Dashboard/Booking';
 
 interface Trade {
   id: string;
@@ -19,6 +21,7 @@ interface Trade {
 
 const Dashboard: React.FC = () => {
   const [selectedSymbol, setSelectedSymbol] = useState('EUR/USD');
+  const [activeTab, setActiveTab] = useState<'trading' | 'portfolio' | 'booking'>('trading');
   
   // Mock trades data
   const trades: Trade[] = [
@@ -77,86 +80,127 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Middle Row - Charts and Trading */}
-      <div className="grid grid-cols-12 gap-6">
-        {/* Market Depth and Trade Execution */}
-        <div className="col-span-8 grid grid-rows-2 gap-6">
-          <div className="row-span-1">
-            <MarketDepthChart />
-          </div>
-          <div className="row-span-1 grid grid-cols-2 gap-6">
-            <div className="col-span-1 bg-gray-800 rounded-lg p-4">
-              <h3 className="text-gray-400 text-sm font-medium mb-4">Position Summary</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Total Exposure</span>
-                  <span className="text-white">$1.2M</span>
+      {/* Navigation Tabs */}
+      <div className="flex space-x-4 border-b border-gray-700">
+        <button
+          className={`px-4 py-2 ${activeTab === 'trading' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-400'}`}
+          onClick={() => setActiveTab('trading')}
+        >
+          Trading
+        </button>
+        <button
+          className={`px-4 py-2 ${activeTab === 'portfolio' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-400'}`}
+          onClick={() => setActiveTab('portfolio')}
+        >
+          Portfolio
+        </button>
+        <button
+          className={`px-4 py-2 ${activeTab === 'booking' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-400'}`}
+          onClick={() => setActiveTab('booking')}
+        >
+          Booking
+        </button>
+      </div>
+
+      {/* Content based on active tab */}
+      {activeTab === 'trading' && (
+        <>
+          {/* Middle Row - Charts and Trading */}
+          <div className="grid grid-cols-12 gap-6">
+            {/* Market Depth and Trade Execution */}
+            <div className="col-span-8 grid grid-rows-2 gap-6">
+              <div className="row-span-1">
+                <MarketDepthChart />
+              </div>
+              <div className="row-span-1 grid grid-cols-2 gap-6">
+                <div className="col-span-1 bg-gray-800 rounded-lg p-4">
+                  <h3 className="text-gray-400 text-sm font-medium mb-4">Position Summary</h3>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Total Exposure</span>
+                      <span className="text-white">$1.2M</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Margin Used</span>
+                      <span className="text-white">45%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Risk Level</span>
+                      <span className="text-yellow-500">Moderate</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Margin Used</span>
-                  <span className="text-white">45%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Risk Level</span>
-                  <span className="text-yellow-500">Moderate</span>
+                <div className="col-span-1 bg-gray-800 rounded-lg p-4">
+                  <h3 className="text-gray-400 text-sm font-medium mb-4">Risk Metrics</h3>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">VaR (1d, 95%)</span>
+                      <span className="text-white">$15,234</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Sharpe Ratio</span>
+                      <span className="text-white">1.82</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Beta</span>
+                      <span className="text-white">0.85</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="col-span-1 bg-gray-800 rounded-lg p-4">
-              <h3 className="text-gray-400 text-sm font-medium mb-4">Risk Metrics</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">VaR (1d, 95%)</span>
-                  <span className="text-white">$15,234</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Sharpe Ratio</span>
-                  <span className="text-white">1.82</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Beta</span>
-                  <span className="text-white">0.85</span>
-                </div>
+
+            {/* Trade Execution and Vol Surface */}
+            <div className="col-span-4 space-y-6">
+              <TradeExecution 
+                symbol={selectedSymbol}
+                currentPrice={1.1000}
+                spread={0.0002}
+              />
+              <div className="bg-gray-800 rounded-lg p-4">
+                <h3 className="text-gray-400 text-sm font-medium mb-4">Volatility Surface</h3>
+                <VolatilitySurfaceChart />
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Trade Execution and Vol Surface */}
-        <div className="col-span-4 space-y-6">
-          <TradeExecution 
-            symbol={selectedSymbol}
-            currentPrice={1.1000}
-            spread={0.0002}
-          />
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-gray-400 text-sm font-medium mb-4">Volatility Surface</h3>
-            <VolatilitySurfaceChart />
+          {/* Bottom Row - Active Trades */}
+          <div className="bg-gray-800 rounded-lg p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-lg font-semibold">Active Trades</h3>
+              <div className="flex space-x-4">
+                <select
+                  value={selectedSymbol}
+                  onChange={(e) => setSelectedSymbol(e.target.value)}
+                  className="bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option>EUR/USD</option>
+                  <option>GBP/USD</option>
+                  <option>USD/JPY</option>
+                </select>
+                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                  New Trade
+                </button>
+              </div>
+            </div>
+            <TradeList trades={trades} onTradeSelect={() => {}} />
           </div>
-        </div>
-      </div>
+        </>
+      )}
 
-      {/* Bottom Row - Active Trades */}
-      <div className="bg-gray-800 rounded-lg p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-semibold">Active Trades</h3>
-          <div className="flex space-x-4">
-            <select
-              value={selectedSymbol}
-              onChange={(e) => setSelectedSymbol(e.target.value)}
-              className="bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option>EUR/USD</option>
-              <option>GBP/USD</option>
-              <option>USD/JPY</option>
-            </select>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-              New Trade
-            </button>
-          </div>
+      {/* Portfolio View */}
+      {activeTab === 'portfolio' && (
+        <div className="space-y-6">
+          <Portfolio />
         </div>
-        <TradeList trades={trades} onTradeSelect={() => {}} />
-      </div>
+      )}
+
+      {/* Booking View */}
+      {activeTab === 'booking' && (
+        <div className="max-w-2xl mx-auto">
+          <Booking />
+        </div>
+      )}
     </div>
   );
 };
