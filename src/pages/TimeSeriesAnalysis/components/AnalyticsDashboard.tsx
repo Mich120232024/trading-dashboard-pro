@@ -1,57 +1,56 @@
-import React from 'react';
-import { ArrowTrendingUpIcon, ArrowTrendingDownIcon, ChartBarIcon } from '@heroicons/react/24/outline';
+import React from "react";
 
 interface AnalyticsDashboardProps {
   dataset: string;
   timeRange: string;
 }
 
-const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ dataset, timeRange }) => {
+const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = () => {
   // Mock analytics data
   const metrics = [
     {
-      label: 'Trend Direction',
-      value: 'Bullish',
-      change: '+2.3%',
+      label: "Trend Direction",
+      value: "Bullish",
+      change: "+2.3%",
       isPositive: true,
-      details: 'Strong upward momentum'
+      details: "Strong upward momentum",
     },
     {
-      label: 'Volatility',
-      value: '12.5%',
-      change: '-1.2%',
+      label: "Volatility",
+      value: "12.5%",
+      change: "-1.2%",
       isPositive: true,
-      details: 'Decreasing volatility'
+      details: "Decreasing volatility",
     },
     {
-      label: 'RSI',
-      value: '65.4',
-      change: '+5.2',
+      label: "RSI",
+      value: "65.4",
+      change: "+5.2",
       isPositive: true,
-      details: 'Approaching overbought'
+      details: "Approaching overbought",
     },
     {
-      label: 'Volume',
-      value: '1.2M',
-      change: '-5.4%',
+      label: "Volume",
+      value: "1.2M",
+      change: "-5.4%",
       isPositive: false,
-      details: 'Below average volume'
-    }
+      details: "Below average volume",
+    },
   ];
 
   const patterns = [
     {
-      name: 'Double Top',
+      name: "Double Top",
       confidence: 85,
-      timeframe: '4H',
-      impact: 'Bearish'
+      timeframe: "4H",
+      impact: "Bearish",
     },
     {
-      name: 'Support Level',
+      name: "Support Level",
       confidence: 92,
-      timeframe: '1D',
-      impact: 'Bullish'
-    }
+      timeframe: "1D",
+      impact: "Bullish",
+    },
   ];
 
   return (
@@ -65,7 +64,9 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ dataset, timeRa
               <div className="flex justify-between items-start mb-2">
                 <span className="text-sm text-gray-400">{metric.label}</span>
                 <span
-                  className={`text-sm ${metric.isPositive ? 'text-green-500' : 'text-red-500'}`}
+                  className={`text-sm ${
+                    metric.isPositive ? "text-green-500" : "text-red-500"
+                  }`}
                 >
                   {metric.change}
                 </span>
@@ -85,7 +86,9 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ dataset, timeRa
             <div key={pattern.name} className="bg-gray-700 rounded-lg p-4">
               <div className="flex justify-between items-center mb-2">
                 <span className="font-medium">{pattern.name}</span>
-                <span className="text-sm text-gray-400">{pattern.timeframe}</span>
+                <span className="text-sm text-gray-400">
+                  {pattern.timeframe}
+                </span>
               </div>
               <div className="mb-2">
                 <div className="flex justify-between text-sm text-gray-400 mb-1">
@@ -101,7 +104,13 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ dataset, timeRa
               </div>
               <div className="text-sm">
                 <span className="text-gray-400">Impact: </span>
-                <span className={pattern.impact === 'Bullish' ? 'text-green-500' : 'text-red-500'}>
+                <span
+                  className={
+                    pattern.impact === "Bullish"
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }
+                >
                   {pattern.impact}
                 </span>
               </div>
