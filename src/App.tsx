@@ -5,6 +5,7 @@ import Trades from "./pages/Trades";
 import Analytics from "./pages/Analytics";
 import TimeSeriesAnalysis from "./pages/TimeSeriesAnalysis";
 import FXPortfolio from "./pages/FXPortfolio";
+import PowerBIAnalytics from "./pages/PowerBIAnalytics";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/timeseries" element={<TimeSeriesAnalysis />} />
           <Route path="/fx-portfolio" element={<FXPortfolio />} />
+          <Route path="/powerbi" element={<PowerBIAnalytics />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </MainLayout>
