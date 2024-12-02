@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Trades from "./pages/Trades";
 import Analytics from "./pages/Analytics";
 import TimeSeriesAnalysis from "./pages/TimeSeriesAnalysis";
+import FXPortfolio from "./pages/FXPortfolio";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
           <Route path="/trades" element={<Trades />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/timeseries" element={<TimeSeriesAnalysis />} />
+          <Route path="/fx-portfolio" element={<FXPortfolio />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </MainLayout>
