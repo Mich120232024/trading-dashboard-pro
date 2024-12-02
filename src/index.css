@@ -1,39 +1,158 @@
-/* Tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles */
-:root {
-  color-scheme: dark;
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+
+    --radius: 0.75rem;
+  }
 }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #111827;
-  color: #ffffff;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
 }
 
-/* Custom scrollbar styling */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1f2937;
+  background: rgba(217.2, 32.6%, 17.5%, 0.1);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #374151;
-  border-radius: 5px;
+  background: rgba(217.2, 32.6%, 17.5%, 0.5);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4b5563;
+  background: rgba(217.2, 32.6%, 17.5%, 0.7);
+}
+
+/* Card Transitions */
+.card-transition {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Hover Effects */
+.hover-scale {
+  @apply transition-transform duration-200 hover:scale-[1.02];
+}
+
+/* Data Tables */
+.data-table {
+  @apply w-full border-collapse;
+}
+
+.data-table th,
+.data-table td {
+  @apply px-4 py-2 border-b border-gray-700 text-left;
+}
+
+.data-table th {
+  @apply bg-gray-800 text-gray-300 font-medium;
+}
+
+.data-table tbody tr {
+  @apply hover:bg-gray-800/50 transition-colors;
+}
+
+/* Chart Container */
+.chart-container {
+  @apply rounded-lg bg-gray-800/50 p-4 backdrop-blur-sm;
+}
+
+/* Stats Card */
+.stats-card {
+  @apply bg-gray-800/90 rounded-lg p-6 hover:bg-gray-800 transition-colors;
+  backdrop-filter: blur(8px);
+}
+
+/* Gradient Text */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500;
+}
+
+/* Glass Effect */
+.glass-effect {
+  @apply bg-gray-800/40 backdrop-blur-md border border-gray-700/50 shadow-xl;
+}
+
+/* Button Styles */
+.button-primary {
+  @apply px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg
+    transition-colors duration-200 flex items-center justify-center gap-2
+    shadow-lg hover:shadow-blue-500/20;
+}
+
+.button-secondary {
+  @apply px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-lg
+    transition-colors duration-200 flex items-center justify-center gap-2
+    shadow-lg hover:shadow-gray-500/20;
+}
+
+/* Loading Animations */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .5; }
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Value Changes */
+.value-increase {
+  @apply text-green-500 transition-colors duration-300;
+}
+
+.value-decrease {
+  @apply text-red-500 transition-colors duration-300;
+}
+
+/* Card Overflow */
+.card-overflow {
+  @apply overflow-hidden hover:overflow-auto transition-all duration-300;
+}
+
+/* Smooth Number Transitions */
+.number-transition {
+  @apply transition-all duration-300 ease-out;
 }
