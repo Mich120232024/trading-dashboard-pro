@@ -1,7 +1,9 @@
+/* Tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Custom styles */
 :root {
   color-scheme: dark;
 }
@@ -17,7 +19,7 @@ body {
   color: #ffffff;
 }
 
-/* Scrollbar Styling */
+/* Custom scrollbar styling */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
