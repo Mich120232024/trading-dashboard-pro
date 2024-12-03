@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpDown, ChevronDown, ChevronUp, Search, Filter } from 'lucide-react';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, ChevronUp, Search, Filter } from "lucide-react";
 
 interface Column<T> {
   field: keyof T;
@@ -22,7 +22,7 @@ interface DataGridProps<T> {
   onRowClick?: (row: T) => void;
 }
 
-function DataGrid<T extends { id?: string | number }>({ 
+function DataGrid<T extends { id?: string | number }>({
   columns,
   data,
   loading = false,
@@ -30,18 +30,18 @@ function DataGrid<T extends { id?: string | number }>({
   filterable = true,
   pagination = true,
   pageSize = 10,
-  className = '',
-  onRowClick
+  className = "",
+  onRowClick,
 }: DataGridProps<T>) {
   const [sortField, setSortField] = useState<keyof T | null>(null);
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [filter, setFilter] = useState('');
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [filter, setFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
 
   // Filter data
-  const filteredData = data.filter(row => 
-    Object.values(row).some(value => 
+  const filteredData = data.filter((row) =>
+    Object.values(row).some((value) =>
       String(value).toLowerCase().includes(filter.toLowerCase())
     )
   );
@@ -49,7 +49,7 @@ function DataGrid<T extends { id?: string | number }>({
   // Sort data
   const sortedData = [...filteredData].sort((a, b) => {
     if (!sortField) return 0;
-    
+
     const aValue = a[sortField];
     const bValue = b[sortField];
 
@@ -58,7 +58,7 @@ function DataGrid<T extends { id?: string | number }>({
     if (bValue === null || bValue === undefined) return -1;
 
     const compareResult = aValue < bValue ? -1 : 1;
-    return sortDirection === 'asc' ? compareResult : -compareResult;
+    return sortDirection === "asc" ? compareResult : -compareResult;
   });
 
   // Paginate data
@@ -69,12 +69,12 @@ function DataGrid<T extends { id?: string | number }>({
 
   const handleSort = (field: keyof T) => {
     if (!sortable) return;
-    
+
     if (sortField === field) {
-      setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
+      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
     } else {
       setSortField(field);
-      setSortDirection('asc');
+      setSortDirection("asc");
     }
   };
 
@@ -113,8 +113,11 @@ function DataGrid<T extends { id?: string | number }>({
                 <button
                   onClick={() => setShowFilters(!showFilters)}
                   className={`p-2 rounded-lg transition-colors
-                    ${showFilters ? 'bg-accent-orange/20 text-accent-orange' : 
-                    'hover:bg-text-secondary/10'}`}
+                    ${
+                      showFilters
+                        ? "bg-accent-orange/20 text-accent-orange"
+                        : "hover:bg-text-secondary/10"
+                    }`}
                 >
                   <Filter className="w-5 h-5" />
                 </button>
@@ -126,7 +129,7 @@ function DataGrid<T extends { id?: string | number }>({
             {showFilters && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
+                animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.2 }}
                 className="mt-4 pt-4 border-t border-text-secondary/10"
@@ -147,20 +150,29 @@ function DataGrid<T extends { id?: string | number }>({
                 <th
                   key={String(column.field)}
                   className={`px-4 py-3 text-left text-sm font-medium text-text-secondary
-                    ${column.width ? column.width : ''}
-                    ${column.sortable !== false && sortable ? 'cursor-pointer hover:text-text-primary' : ''}`}
-                  onClick={() => column.sortable !== false && handleSort(column.field)}
+                    ${column.width ? column.width : ""}
+                    ${
+                      column.sortable !== false && sortable
+                        ? "cursor-pointer hover:text-text-primary"
+                        : ""
+                    }`}
+                  onClick={() =>
+                    column.sortable !== false && handleSort(column.field)
+                  }
                 >
                   <div className="flex items-center space-x-2">
                     <span>{column.header}</span>
-                    {column.sortable !== false && sortable && sortField === column.field && (
-                      <span>
-                        {sortDirection === 'asc' ? 
-                          <ChevronUp className="w-4 h-4" /> : 
-                          <ChevronDown className="w-4 h-4" />
-                        }
-                      </span>
-                    )}
+                    {column.sortable !== false &&
+                      sortable &&
+                      sortField === column.field && (
+                        <span>
+                          {sortDirection === "asc" ? (
+                            <ChevronUp className="w-4 h-4" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4" />
+                          )}
+                        </span>
+                      )}
                   </div>
                 </th>
               ))}
@@ -171,7 +183,7 @@ function DataGrid<T extends { id?: string | number }>({
               <LoadingRow />
             ) : paginatedData.length === 0 ? (
               <tr>
-                <td 
+                <td
                   colSpan={columns.length}
                   className="px-4 py-8 text-center text-text-secondary"
                 >
@@ -187,16 +199,17 @@ function DataGrid<T extends { id?: string | number }>({
                   transition={{ delay: index * 0.05 }}
                   onClick={() => onRowClick?.(row)}
                   className={`border-b border-text-secondary/10 
-                    ${onRowClick ? 'cursor-pointer hover:bg-text-secondary/5' : ''}`}
+                    ${
+                      onRowClick
+                        ? "cursor-pointer hover:bg-text-secondary/5"
+                        : ""
+                    }`}
                 >
                   {columns.map((column) => (
-                    <td
-                      key={String(column.field)}
-                      className="px-4 py-3"
-                    >
-                      {column.renderCell 
+                    <td key={String(column.field)} className="px-4 py-3">
+                      {column.renderCell
                         ? column.renderCell(row)
-                        : String(row[column.field] ?? '')}
+                        : String(row[column.field] ?? "")}
                     </td>
                   ))}
                 </motion.tr>
@@ -210,7 +223,9 @@ function DataGrid<T extends { id?: string | number }>({
       {pagination && totalPages > 1 && (
         <div className="p-4 border-t border-text-secondary/10 flex items-center justify-between">
           <div className="text-sm text-text-secondary">
-            Showing {((currentPage - 1) * pageSize) + 1} to {Math.min(currentPage * pageSize, sortedData.length)} of {sortedData.length} entries
+            Showing {(currentPage - 1) * pageSize + 1} to{" "}
+            {Math.min(currentPage * pageSize, sortedData.length)} of{" "}
+            {sortedData.length} entries
           </div>
           <div className="flex items-center space-x-2">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
@@ -218,9 +233,11 @@ function DataGrid<T extends { id?: string | number }>({
                 key={page}
                 onClick={() => setCurrentPage(page)}
                 className={`px-3 py-1 rounded-md transition-colors
-                  ${currentPage === page
-                    ? 'bg-accent-orange text-white'
-                    : 'hover:bg-text-secondary/10'}`}
+                  ${
+                    currentPage === page
+                      ? "bg-accent-orange text-white"
+                      : "hover:bg-text-secondary/10"
+                  }`}
               >
                 {page}
               </button>

@@ -1,94 +1,172 @@
-import WebSocketService from './WebSocketService';
-
-type MarketDataCallback = (data: any) => void;
+// src/lib/services/MarketDataService.ts
+import {
+  MarketData,
+  MarketDataCallback,
+  TradingStatus,
+  TradingStatusCallback,
+} from "./types";
 
 class MarketDataService {
-  private ws: WebSocketService;
-  private subscribers: Map<string, Set<MarketDataCallback>> = new Map();
-  private lastPrices: Map<string, any> = new Map();
+  private socket: WebSocket | null = null;
+  private marketDataSubscribers: Map<string, Set<MarketDataCallback>> =
+    new Map();
+  private statusSubscribers: Map<string, Set<TradingStatusCallback>> =
+    new Map();
+  private lastPrices: Map<string, MarketData> = new Map();
+  private url: string;
 
   constructor(url: string) {
-    this.ws = new WebSocketService(url);
-    this.initializeWebSocket();
+    this.url = url;
+    this.connect();
   }
 
-  private initializeWebSocket() {
-    this.ws.subscribe('marketData', (data) => {
-      this.handleMarketData(data);
+  private connect() {
+    this.socket = new WebSocket(this.url);
+
+    this.socket.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.type === "marketData") {
+          this.handleMarketData(data.payload);
+        } else if (data.type === "tradingStatus") {
+          this.handleTradingStatus(data.payload);
+        }
+      } catch (error) {
+        console.error("Error processing message:", error);
+      }
+    };
+
+    this.socket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+  }
+
+  private handleMarketData(data: MarketData) {
+    const { symbol } = data;
+    this.lastPrices.set(symbol, {
+      ...data,
+      timestamp: Date.now(),
     });
 
-    this.ws.subscribe('tradingStatus', (data) => {
-      this.handleTradingStatus(data);
-    });
-
-    this.ws.connect();
-  }
-
-  private handleMarketData(data: any) {
-    const { symbol, price, bid, ask, volume } = data;
-    this.lastPrices.set(symbol, { price, bid, ask, volume, timestamp: Date.now() });
-    
-    if (this.subscribers.has(symbol)) {
-      this.subscribers.get(symbol)?.forEach(callback => callback(data));
+    const subscribers = this.marketDataSubscribers.get(symbol);
+    if (subscribers) {
+      subscribers.forEach((callback) => callback(data));
     }
   }
 
-  private handleTradingStatus(data: any) {
-    const { symbol, status } = data;
-    if (this.subscribers.has(`${symbol}_status`)) {
-      this.subscribers.get(`${symbol}_status`)?.forEach(callback => callback(data));
+  private handleTradingStatus(data: TradingStatus) {
+    const { symbol } = data;
+    const subscribers = this.statusSubscribers.get(symbol);
+    if (subscribers) {
+      subscribers.forEach((callback) => callback(data));
     }
   }
 
-  subscribeToSymbol(symbol: string, callback: MarketDataCallback) {
-    if (!this.subscribers.has(symbol)) {
-      this.subscribers.set(symbol, new Set());
+  subscribeToMarketData(symbol: string, callback: MarketDataCallback) {
+    if (!this.marketDataSubscribers.has(symbol)) {
+      this.marketDataSubscribers.set(symbol, new Set());
     }
-    this.subscribers.get(symbol)?.add(callback);
+    this.marketDataSubscribers.get(symbol)?.add(callback);
 
-    // Send last known price immediately if available
+    // Send latest price if available
     const lastPrice = this.lastPrices.get(symbol);
     if (lastPrice) {
       callback(lastPrice);
     }
-
-    return () => this.unsubscribeFromSymbol(symbol, callback);
   }
 
-  unsubscribeFromSymbol(symbol: string, callback: MarketDataCallback) {
-    this.subscribers.get(symbol)?.delete(callback);
-    if (this.subscribers.get(symbol)?.size === 0) {
-      this.subscribers.delete(symbol);
+  subscribeToTradingStatus(symbol: string, callback: TradingStatusCallback) {
+    if (!this.statusSubscribers.has(symbol)) {
+      this.statusSubscribers.set(symbol, new Set());
     }
+    this.statusSubscribers.get(symbol)?.add(callback);
   }
 
-  subscribeToTradingStatus(symbol: string, callback: MarketDataCallback) {
-    const key = `${symbol}_status`;
-    if (!this.subscribers.has(key)) {
-      this.subscribers.set(key, new Set());
-    }
-    this.subscribers.get(key)?.add(callback);
-
-    return () => this.unsubscribeFromTradingStatus(symbol, callback);
+  unsubscribeFromMarketData(symbol: string, callback: MarketDataCallback) {
+    this.marketDataSubscribers.get(symbol)?.delete(callback);
   }
 
-  unsubscribeFromTradingStatus(symbol: string, callback: MarketDataCallback) {
-    const key = `${symbol}_status`;
-    this.subscribers.get(key)?.delete(callback);
-    if (this.subscribers.get(key)?.size === 0) {
-      this.subscribers.delete(key);
-    }
+  unsubscribeFromTradingStatus(
+    symbol: string,
+    callback: TradingStatusCallback
+  ) {
+    this.statusSubscribers.get(symbol)?.delete(callback);
   }
 
-  getLastPrice(symbol: string) {
+  getLastPrice(symbol: string): MarketData | undefined {
     return this.lastPrices.get(symbol);
   }
 
   disconnect() {
-    this.ws.disconnect();
-    this.subscribers.clear();
+    if (this.socket) {
+      this.socket.close();
+      this.socket = null;
+    }
+    this.marketDataSubscribers.clear();
+    this.statusSubscribers.clear();
     this.lastPrices.clear();
   }
 }
 
 export default MarketDataService;
+
+// src/lib/services/WebSocketService.ts
+export interface WebSocketMessage {
+  type: string;
+  data: any;
+}
+
+export class WebSocketService {
+  private url: string;
+  private socket: WebSocket | null = null;
+  private subscriptions: Map<string, ((data: any) => void)[]> = new Map();
+
+  constructor(url: string) {
+    this.url = url;
+  }
+
+  connect() {
+    this.socket = new WebSocket(this.url);
+
+    this.socket.onmessage = (event) => {
+      try {
+        const message = JSON.parse(event.data) as WebSocketMessage;
+        const callbacks = this.subscriptions.get(message.type);
+        if (callbacks) {
+          callbacks.forEach((callback) => callback(message.data));
+        }
+      } catch (error) {
+        console.error("Error processing websocket message:", error);
+      }
+    };
+
+    this.socket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+  }
+
+  subscribe(type: string, callback: (data: any) => void) {
+    if (!this.subscriptions.has(type)) {
+      this.subscriptions.set(type, []);
+    }
+    this.subscriptions.get(type)?.push(callback);
+  }
+
+  unsubscribe(type: string, callback: (data: any) => void) {
+    const callbacks = this.subscriptions.get(type);
+    if (callbacks) {
+      const index = callbacks.indexOf(callback);
+      if (index > -1) {
+        callbacks.splice(index, 1);
+      }
+    }
+  }
+
+  disconnect() {
+    if (this.socket) {
+      this.socket.close();
+      this.socket = null;
+    }
+    this.subscriptions.clear();
+  }
+}

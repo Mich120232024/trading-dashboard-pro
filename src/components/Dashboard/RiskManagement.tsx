@@ -1,70 +1,70 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertTriangle, TrendingUp, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AlertTriangle, ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 interface RiskMetric {
   name: string;
   value: number;
   change: number;
-  status: 'good' | 'warning' | 'danger';
+  status: "good" | "warning" | "danger";
 }
 
 const RiskManagement: React.FC = () => {
   const riskMetrics: RiskMetric[] = [
     {
-      name: 'Value at Risk (95%)',
+      name: "Value at Risk (95%)",
       value: 12500,
       change: 5.2,
-      status: 'warning'
+      status: "warning",
     },
     {
-      name: 'Expected Shortfall',
+      name: "Expected Shortfall",
       value: 15000,
       change: 3.8,
-      status: 'warning'
+      status: "warning",
     },
     {
-      name: 'Maximum Drawdown',
+      name: "Maximum Drawdown",
       value: 8500,
       change: -2.1,
-      status: 'good'
+      status: "good",
     },
     {
-      name: 'Position Leverage',
+      name: "Position Leverage",
       value: 4.2,
       change: 0.5,
-      status: 'warning'
+      status: "warning",
     },
     {
-      name: 'Correlation Risk',
+      name: "Correlation Risk",
       value: 0.65,
       change: 0.08,
-      status: 'good'
+      status: "good",
     },
     {
-      name: 'Stress Test Loss',
+      name: "Stress Test Loss",
       value: 25000,
       change: 12.5,
-      status: 'danger'
-    }
+      status: "danger",
+    },
   ];
 
   const correlationMatrix = [
-    ['EUR/USD', 1, 0.65, -0.45],
-    ['GBP/USD', 0.65, 1, -0.32],
-    ['USD/JPY', -0.45, -0.32, 1]
+    ["EUR/USD", 1, 0.65, -0.45],
+    ["GBP/USD", 0.65, 1, -0.32],
+    ["USD/JPY", -0.45, -0.32, 1],
   ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'good':
-        return 'text-green-500';
-      case 'warning':
-        return 'text-yellow-500';
-      case 'danger':
-        return 'text-red-500';
+      case "good":
+        return "text-green-500";
+      case "warning":
+        return "text-yellow-500";
+      case "danger":
+        return "text-red-500";
       default:
-        return 'text-gray-500';
+        return "text-gray-500";
     }
   };
 
@@ -85,7 +85,11 @@ const RiskManagement: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-400">{metric.name}</p>
-                  <h3 className={`text-2xl font-bold ${getStatusColor(metric.status)}`}>
+                  <h3
+                    className={`text-2xl font-bold ${getStatusColor(
+                      metric.status
+                    )}`}
+                  >
                     {formatValue(metric.value)}
                   </h3>
                   <div className="flex items-center mt-1">
@@ -94,12 +98,18 @@ const RiskManagement: React.FC = () => {
                     ) : (
                       <ArrowDownRight className="w-4 h-4 text-green-500" />
                     )}
-                    <span className={metric.change >= 0 ? 'text-red-500' : 'text-green-500'}>
+                    <span
+                      className={
+                        metric.change >= 0 ? "text-red-500" : "text-green-500"
+                      }
+                    >
                       {Math.abs(metric.change)}%
                     </span>
                   </div>
                 </div>
-                <AlertTriangle className={`h-8 w-8 ${getStatusColor(metric.status)}`} />
+                <AlertTriangle
+                  className={`h-8 w-8 ${getStatusColor(metric.status)}`}
+                />
               </div>
             </CardContent>
           </Card>
@@ -126,15 +136,27 @@ const RiskManagement: React.FC = () => {
                 {correlationMatrix.map((row, i) => (
                   <tr key={i} className="border-b">
                     {row.map((value, j) => (
-                      <td 
-                        key={j} 
-                        className={`px-4 py-2 ${j === 0 ? 'text-left' : 'text-right'}`}
+                      <td
+                        key={j}
+                        className={`px-4 py-2 ${
+                          j === 0 ? "text-left" : "text-right"
+                        }`}
                       >
-                        {j === 0 ? value : (
-                          <span className={value === 1 ? 'text-white' : 
-                            value > 0 ? 'text-yellow-500' : 'text-blue-500'}
+                        {j === 0 ? (
+                          value
+                        ) : (
+                          <span
+                            className={
+                              value === 1
+                                ? "text-white"
+                                : Number(value) > 0
+                                ? "text-yellow-500"
+                                : "text-blue-500"
+                            }
                           >
-                            {value.toFixed(2)}
+                            {typeof value === "number"
+                              ? value.toFixed(2)
+                              : value}
                           </span>
                         )}
                       </td>
@@ -158,9 +180,9 @@ const RiskManagement: React.FC = () => {
               <span>Daily VaR Limit</span>
               <div className="flex items-center space-x-2">
                 <div className="w-32 bg-gray-700 h-2 rounded-full">
-                  <div 
-                    className="bg-yellow-500 h-2 rounded-full" 
-                    style={{ width: '75%' }}
+                  <div
+                    className="bg-yellow-500 h-2 rounded-full"
+                    style={{ width: "75%" }}
                   />
                 </div>
                 <span className="text-yellow-500">75%</span>
@@ -170,9 +192,9 @@ const RiskManagement: React.FC = () => {
               <span>Position Size Limit</span>
               <div className="flex items-center space-x-2">
                 <div className="w-32 bg-gray-700 h-2 rounded-full">
-                  <div 
-                    className="bg-green-500 h-2 rounded-full" 
-                    style={{ width: '45%' }}
+                  <div
+                    className="bg-green-500 h-2 rounded-full"
+                    style={{ width: "45%" }}
                   />
                 </div>
                 <span className="text-green-500">45%</span>
@@ -182,9 +204,9 @@ const RiskManagement: React.FC = () => {
               <span>Leverage Limit</span>
               <div className="flex items-center space-x-2">
                 <div className="w-32 bg-gray-700 h-2 rounded-full">
-                  <div 
-                    className="bg-red-500 h-2 rounded-full" 
-                    style={{ width: '90%' }}
+                  <div
+                    className="bg-red-500 h-2 rounded-full"
+                    style={{ width: "90%" }}
                   />
                 </div>
                 <span className="text-red-500">90%</span>

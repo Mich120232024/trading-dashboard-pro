@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { TrendingUp, TrendingDown, Clock } from 'lucide-react';
-import { useMarketData, MarketData } from '@/lib/hooks/useMarketData';
+import React, { useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { TrendingUp, TrendingDown, Clock } from "lucide-react";
+import { useMarketData } from "@/lib/hooks/useMarketData";
 
 interface PriceTickerProps {
   symbol: string;
@@ -9,33 +9,37 @@ interface PriceTickerProps {
   className?: string;
 }
 
-const PriceTicker: React.FC<PriceTickerProps> = ({ 
-  symbol, 
+const PriceTicker: React.FC<PriceTickerProps> = ({
+  symbol,
   showDetails = false,
-  className = ''
+  className = "",
 }) => {
   const prevPriceRef = useRef<number | null>(null);
   const flashRef = useRef<HTMLDivElement>(null);
-  
+
   const { data, status, error } = useMarketData(symbol, {
     includeTradingStatus: true,
     updateInterval: 1000,
     onUpdate: (newData) => {
-      if (prevPriceRef.current !== null && newData.price !== prevPriceRef.current) {
-        flashPrice(newData.price > prevPriceRef.current ? 'up' : 'down');
+      if (
+        prevPriceRef.current !== null &&
+        newData.price !== prevPriceRef.current
+      ) {
+        flashPrice(newData.price > prevPriceRef.current ? "up" : "down");
       }
       prevPriceRef.current = newData.price;
-    }
+    },
   });
 
-  const flashPrice = (direction: 'up' | 'down') => {
+  const flashPrice = (direction: "up" | "down") => {
     if (flashRef.current) {
       flashRef.current.className = `absolute inset-0 rounded-lg ${
-        direction === 'up' ? 'bg-green-500/20' : 'bg-red-500/20'
+        direction === "up" ? "bg-green-500/20" : "bg-red-500/20"
       }`;
       setTimeout(() => {
         if (flashRef.current) {
-          flashRef.current.className = 'absolute inset-0 rounded-lg bg-transparent';
+          flashRef.current.className =
+            "absolute inset-0 rounded-lg bg-transparent";
         }
       }, 200);
     }
@@ -50,23 +54,32 @@ const PriceTicker: React.FC<PriceTickerProps> = ({
   }
 
   return (
-    <div className={`relative p-4 rounded-lg glass-morphism-hover ${className}`}>
-      <div ref={flashRef} className="absolute inset-0 rounded-lg bg-transparent transition-colors duration-200" />
+    <div
+      className={`relative p-4 rounded-lg glass-morphism-hover ${className}`}
+    >
+      <div
+        ref={flashRef}
+        className="absolute inset-0 rounded-lg bg-transparent transition-colors duration-200"
+      />
       <div className="relative">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-gray-400">{symbol}</span>
-          <span className={`text-xs px-2 py-1 rounded-full ${
-            status === 'active' ? 'bg-green-500/20 text-green-500' :
-            status === 'suspended' ? 'bg-red-500/20 text-red-500' :
-            'bg-yellow-500/20 text-yellow-500'
-          }`}>
+          <span
+            className={`text-xs px-2 py-1 rounded-full ${
+              status === "active"
+                ? "bg-green-500/20 text-green-500"
+                : status === "suspended"
+                ? "bg-red-500/20 text-red-500"
+                : "bg-yellow-500/20 text-yellow-500"
+            }`}
+          >
             {status}
           </span>
         </div>
 
         <div className="flex items-center justify-between">
           <div>
-            <AnimatePresence mode='wait'>
+            <AnimatePresence mode="wait">
               {data && (
                 <motion.div
                   key={data.price}
@@ -80,9 +93,11 @@ const PriceTicker: React.FC<PriceTickerProps> = ({
               )}
             </AnimatePresence>
             {data?.change && (
-              <div className={`flex items-center text-sm ${
-                data.change >= 0 ? 'text-green-500' : 'text-red-500'
-              }`}>
+              <div
+                className={`flex items-center text-sm ${
+                  data.change >= 0 ? "text-green-500" : "text-red-500"
+                }`}
+              >
                 {data.change >= 0 ? (
                   <TrendingUp className="w-4 h-4 mr-1" />
                 ) : (
