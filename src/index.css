@@ -56,7 +56,9 @@ body {
 
 /* Card Styles */
 .card-modern {
-  @apply bg-card-bg rounded-lg p-6;
+  background-color: var(--card-bg);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -81,7 +83,9 @@ body {
 }
 
 .btn-secondary {
-  @apply px-4 py-2 rounded-lg transition-all duration-200;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
   background: rgba(var(--text-secondary), 0.1);
   color: rgb(var(--text-primary));
 }
@@ -122,7 +126,8 @@ body {
 }
 
 .alert-error {
-  @apply rounded-lg p-4;
+  border-radius: 0.5rem; /* rounded-lg */
+  padding: 1rem; /* p-4 */
   background: rgba(var(--error), 0.1);
   border: 1px solid rgba(var(--error), 0.2);
   color: rgb(var(--error));
@@ -130,7 +135,9 @@ body {
 
 /* Status Indicators */
 .status-dot {
-  @apply w-2 h-2 rounded-full;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
 }
 
 .status-dot.active {
@@ -150,17 +157,24 @@ body {
 
 /* Data Tables */
 .table-modern {
-  @apply w-full;
+  width: 100%;
 }
 
 .table-modern th {
-  @apply px-4 py-3 text-left;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  text-align: left;
   color: rgb(var(--text-secondary));
   border-bottom: 1px solid rgba(var(--text-secondary), 0.1);
 }
 
 .table-modern td {
-  @apply px-4 py-3;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
   border-bottom: 1px solid rgba(var(--text-secondary), 0.1);
 }
 
@@ -190,7 +204,12 @@ body {
 
 /* Forms */
 .input-modern {
-  @apply px-4 py-2 rounded-lg transition-all duration-200;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
   background: rgba(var(--text-secondary), 0.1);
   border: 1px solid rgba(var(--text-secondary), 0.2);
   color: rgb(var(--text-primary));
@@ -237,83 +256,115 @@ body {
 
 /* Sidebar Styles */
 .sidebar {
-  @apply bg-bg-color p-4 flex flex-col gap-4;
+  background-color: var(--bg-color);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   transition: background-color 0.3s ease-in-out;
 }
 
 .sidebar a {
-  @apply text-text-color p-2 rounded-lg;
+  color: var(--text-color);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .sidebar a:hover {
-  @apply bg-hover-color;
+  background-color: var(--hover-color);
 }
 
 /* Main Content Styles */
 .main-content {
-  @apply p-4 grid grid-cols-1 md:grid-cols-3 gap-4;
-  overflow-y: auto;
-  transition: padding 0.3s ease-in-out;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+@media (min-width: 768px) {
+  .main-content {
+    grid-template-columns: repeat(3, 1fr);
+    overflow-y: auto;
+    transition: padding 0.3s ease-in-out;
+  }
 }
 
 /* Dashboard Header Styles */
 .dashboard-header {
-  @apply col-span-12 flex items-center justify-between pb-4 border-b border-muted-text-color;
+  grid-column: span 12 / span 12;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--muted-text-color);
   transition: border-bottom 0.3s ease-in-out;
 }
 
 .dashboard-header h1 {
-  @apply text-2xl font-bold text-text-color;
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700; /* font-bold */
+  color: var(--text-color); /* text-text-color */
   transition: color 0.3s ease-in-out;
 }
 
 /* Metrics Styles */
 .dashboard-metric {
-  @apply bg-card-bg rounded-lg p-4 text-center;
+  background-color: var(--card-bg);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 /* Chart Card Styles */
 .chart-card {
-  @apply bg-card-bg rounded-lg p-4;
+  background-color: var(--card-bg);
+  border-radius: 0.5rem;
+  padding: 1rem;
   min-height: 300px;
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 /* Table Styles */
 .table-container {
-  @apply bg-card-bg rounded-lg p-4 overflow-x-auto;
+  background-color: var(--card-bg);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 table {
-  @apply w-full border-collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 table th,
 table td {
-  @apply p-3 text-left border-b border-muted-text-color;
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--muted-text-color);
   transition: border-bottom 0.3s ease-in-out;
 }
 
 table th {
-  @apply text-muted-text-color;
+  color: var(--muted-text-color);
   transition: color 0.3s ease-in-out;
 }
 
 table tr:hover {
-  @apply bg-hover-color;
+  background-color: var(--hover-color);
   transition: background-color 0.3s ease-in-out;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .main-content {
-    @apply grid-cols-1;
+    grid-template-columns: 1fr;
   }
 
   .chart-card {
-    @apply col-span-1;
+    grid-column: span 1 / span 1;
   }
+}
 }
