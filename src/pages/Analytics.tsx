@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Portfolio from "../components/Portfolio"; // Ensure the correct path
 import {
   ResponsiveContainer,
   LineChart,
@@ -9,10 +8,10 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
-import Portfolio from "../components/Portfolio"; // Ensure the correct path
+import Portfolio from "./FXPortfolio"; // Ensure the correct path
 
 const Analytics: React.FC = () => {
-  const [currentView] = useState("portfolio");
+  const [currentView, setCurrentView] = useState("portfolio");
   const performanceData = [
     { date: "2024-01", value: 1000 },
     { date: "2024-02", value: 1100 },
@@ -111,8 +110,6 @@ const Analytics: React.FC = () => {
           </ResponsiveContainer>
         </div>
       </div>
-
-      <Outlet />
     </div>
   );
 };
