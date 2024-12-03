@@ -1,82 +1,82 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, Clock, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Clock, ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 interface Order {
   id: string;
   timestamp: string;
   symbol: string;
-  type: 'market' | 'limit' | 'stop';
-  side: 'buy' | 'sell';
+  type: "market" | "limit" | "stop";
+  side: "buy" | "sell";
   quantity: number;
   price: number;
-  status: 'filled' | 'partial' | 'canceled' | 'rejected';
+  status: "filled" | "partial" | "canceled" | "rejected";
   notes?: string;
 }
 
 const OrderHistory: React.FC = () => {
-  const [dateFilter, setDateFilter] = useState('all');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [dateFilter, setDateFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const orders: Order[] = [
     {
-      id: 'O1',
-      timestamp: '2024-03-01T10:30:00Z',
-      symbol: 'EUR/USD',
-      type: 'market',
-      side: 'buy',
+      id: "O1",
+      timestamp: "2024-03-01T10:30:00Z",
+      symbol: "EUR/USD",
+      type: "market",
+      side: "buy",
       quantity: 100000,
-      price: 1.0990,
-      status: 'filled',
-      notes: 'Regular rebalance'
+      price: 1.099,
+      status: "filled",
+      notes: "Regular rebalance",
     },
     {
-      id: 'O2',
-      timestamp: '2024-03-01T11:15:00Z',
-      symbol: 'GBP/USD',
-      type: 'limit',
-      side: 'sell',
+      id: "O2",
+      timestamp: "2024-03-01T11:15:00Z",
+      symbol: "GBP/USD",
+      type: "limit",
+      side: "sell",
       quantity: 50000,
-      price: 1.2650,
-      status: 'partial',
-      notes: 'Position reduction'
+      price: 1.265,
+      status: "partial",
+      notes: "Position reduction",
     },
     {
-      id: 'O3',
-      timestamp: '2024-03-01T14:20:00Z',
-      symbol: 'USD/JPY',
-      type: 'stop',
-      side: 'sell',
+      id: "O3",
+      timestamp: "2024-03-01T14:20:00Z",
+      symbol: "USD/JPY",
+      type: "stop",
+      side: "sell",
       quantity: 75000,
       price: 147.85,
-      status: 'canceled',
-      notes: 'Risk management'
+      status: "canceled",
+      notes: "Risk management",
     },
     {
-      id: 'O4',
-      timestamp: '2024-03-01T15:45:00Z',
-      symbol: 'EUR/USD',
-      type: 'market',
-      side: 'buy',
+      id: "O4",
+      timestamp: "2024-03-01T15:45:00Z",
+      symbol: "EUR/USD",
+      type: "market",
+      side: "buy",
       quantity: 150000,
       price: 1.1005,
-      status: 'filled',
-      notes: 'Opportunity trade'
-    }
+      status: "filled",
+      notes: "Opportunity trade",
+    },
   ];
 
-  const getStatusColor = (status: Order['status']) => {
+  const getStatusColor = (status: Order["status"]) => {
     switch (status) {
-      case 'filled':
-        return 'text-green-500';
-      case 'partial':
-        return 'text-yellow-500';
-      case 'canceled':
-        return 'text-gray-500';
-      case 'rejected':
-        return 'text-red-500';
+      case "filled":
+        return "text-green-500";
+      case "partial":
+        return "text-yellow-500";
+      case "canceled":
+        return "text-gray-500";
+      case "rejected":
+        return "text-red-500";
       default:
-        return 'text-gray-400';
+        return "text-gray-400";
     }
   };
 
@@ -85,9 +85,9 @@ const OrderHistory: React.FC = () => {
     return date.toLocaleString();
   };
 
-  const filteredOrders = orders.filter(order => {
-    if (statusFilter !== 'all' && order.status !== statusFilter) return false;
-    if (dateFilter === 'today') {
+  const filteredOrders = orders.filter((order) => {
+    if (statusFilter !== "all" && order.status !== statusFilter) return false;
+    if (dateFilter === "today") {
       const today = new Date().toDateString();
       const orderDate = new Date(order.timestamp).toDateString();
       return today === orderDate;
@@ -157,7 +157,7 @@ const OrderHistory: React.FC = () => {
                   </td>
                   <td className="px-4 py-2">
                     <div className="flex items-center">
-                      {order.side === 'buy' ? (
+                      {order.side === "buy" ? (
                         <ArrowUpRight className="w-4 h-4 mr-1 text-green-500" />
                       ) : (
                         <ArrowDownRight className="w-4 h-4 mr-1 text-red-500" />

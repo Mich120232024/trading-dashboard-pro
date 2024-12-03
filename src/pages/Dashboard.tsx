@@ -1,81 +1,88 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { 
-  BarChart3, 
-  LineChart as LineChartIcon, 
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  BarChart3,
   PieChart,
   TrendingUp,
-  TrendingDown,
   Activity,
   DollarSign,
   Percent,
   RefreshCcw,
   CandlestickChart,
   ArrowUpRight,
-  ArrowDownRight
-} from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
+  ArrowDownRight,
+} from "lucide-react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+} from "recharts";
 
 const Dashboard: React.FC = () => {
-  const [selectedMetric, setSelectedMetric] = useState('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const refreshData = async () => {
     setIsRefreshing(true);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setIsRefreshing(false);
   };
 
   const stats = [
     {
-      title: 'Portfolio Value',
-      value: '$1,234,567',
-      change: '+2.5%',
-      trend: 'up',
-      icon: DollarSign
+      title: "Portfolio Value",
+      value: "$1,234,567",
+      change: "+2.5%",
+      trend: "up",
+      icon: DollarSign,
     },
     {
-      title: 'Daily P&L',
-      value: '$12,345',
-      change: '+1.2%',
-      trend: 'up',
-      icon: TrendingUp
+      title: "Daily P&L",
+      value: "$12,345",
+      change: "+1.2%",
+      trend: "up",
+      icon: TrendingUp,
     },
     {
-      title: 'Active Trades',
-      value: '23',
-      change: '5 pending',
-      trend: 'neutral',
-      icon: Activity
+      title: "Active Trades",
+      value: "23",
+      change: "5 pending",
+      trend: "neutral",
+      icon: Activity,
     },
     {
-      title: 'Win Rate',
-      value: '68%',
-      change: '+3% MoM',
-      trend: 'up',
-      icon: Percent
-    }
+      title: "Win Rate",
+      value: "68%",
+      change: "+3% MoM",
+      trend: "up",
+      icon: Percent,
+    },
   ];
 
   const chartData = [
-    { time: '09:00', value: 1.0950 },
-    { time: '10:00', value: 1.0965 },
-    { time: '11:00', value: 1.0955 },
-    { time: '12:00', value: 1.0980 },
-    { time: '13:00', value: 1.0990 },
-    { time: '14:00', value: 1.0970 },
-    { time: '15:00', value: 1.1000 },
+    { time: "09:00", value: 1.095 },
+    { time: "10:00", value: 1.0965 },
+    { time: "11:00", value: 1.0955 },
+    { time: "12:00", value: 1.098 },
+    { time: "13:00", value: 1.099 },
+    { time: "14:00", value: 1.097 },
+    { time: "15:00", value: 1.1 },
   ];
 
   const volumeData = [
-    { time: '09:00', buy: 500000, sell: 450000 },
-    { time: '10:00', buy: 600000, sell: 550000 },
-    { time: '11:00', buy: 480000, sell: 520000 },
-    { time: '12:00', buy: 700000, sell: 650000 },
-    { time: '13:00', buy: 550000, sell: 500000 },
-    { time: '14:00', buy: 600000, sell: 580000 },
-    { time: '15:00', buy: 650000, sell: 620000 },
+    { time: "09:00", buy: 500000, sell: 450000 },
+    { time: "10:00", buy: 600000, sell: 550000 },
+    { time: "11:00", buy: 480000, sell: 520000 },
+    { time: "12:00", buy: 700000, sell: 650000 },
+    { time: "13:00", buy: 550000, sell: 500000 },
+    { time: "14:00", buy: 600000, sell: 580000 },
+    { time: "15:00", buy: 650000, sell: 620000 },
   ];
 
   return (
@@ -90,7 +97,9 @@ const Dashboard: React.FC = () => {
           className="btn-primary flex items-center gap-2"
           disabled={isRefreshing}
         >
-          <RefreshCcw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+          <RefreshCcw
+            className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`}
+          />
           Refresh Data
         </motion.button>
       </div>
@@ -111,16 +120,20 @@ const Dashboard: React.FC = () => {
                     <p className="text-sm text-gray-400">{stat.title}</p>
                     <p className="text-2xl font-bold mt-1">{stat.value}</p>
                     <div className="flex items-center mt-1">
-                      {stat.trend === 'up' ? (
+                      {stat.trend === "up" ? (
                         <ArrowUpRight className="w-4 h-4 text-green-500 mr-1" />
-                      ) : stat.trend === 'down' ? (
+                      ) : stat.trend === "down" ? (
                         <ArrowDownRight className="w-4 h-4 text-red-500 mr-1" />
                       ) : null}
-                      <span className={`text-sm ${
-                        stat.trend === 'up' ? 'text-green-500' : 
-                        stat.trend === 'down' ? 'text-red-500' : 
-                        'text-gray-400'
-                      }`}>
+                      <span
+                        className={`text-sm ${
+                          stat.trend === "up"
+                            ? "text-green-500"
+                            : stat.trend === "down"
+                            ? "text-red-500"
+                            : "text-gray-400"
+                        }`}
+                      >
                         {stat.change}
                       </span>
                     </div>
@@ -163,16 +176,16 @@ const Dashboard: React.FC = () => {
                     <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
                     <XAxis dataKey="time" stroke="#666" />
                     <YAxis stroke="#666" />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: '#1F2937', 
-                        border: '1px solid #374151',
-                        borderRadius: '8px'
-                      }} 
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#1F2937",
+                        border: "1px solid #374151",
+                        borderRadius: "8px",
+                      }}
                     />
-                    <Line 
-                      type="monotone" 
-                      dataKey="value" 
+                    <Line
+                      type="monotone"
+                      dataKey="value"
                       stroke="#3B82F6"
                       strokeWidth={2}
                       dot={false}
@@ -197,13 +210,23 @@ const Dashboard: React.FC = () => {
                     <YAxis stroke="#666" />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: '#1F2937',
-                        border: '1px solid #374151',
-                        borderRadius: '8px'
+                        backgroundColor: "#1F2937",
+                        border: "1px solid #374151",
+                        borderRadius: "8px",
                       }}
                     />
-                    <Bar dataKey="buy" name="Buy Volume" fill="#10B981" stackId="a" />
-                    <Bar dataKey="sell" name="Sell Volume" fill="#EF4444" stackId="a" />
+                    <Bar
+                      dataKey="buy"
+                      name="Buy Volume"
+                      fill="#10B981"
+                      stackId="a"
+                    />
+                    <Bar
+                      dataKey="sell"
+                      name="Sell Volume"
+                      fill="#EF4444"
+                      stackId="a"
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -221,16 +244,25 @@ const Dashboard: React.FC = () => {
             <CardContent>
               <div className="space-y-4">
                 {[
-                  { pair: 'EUR/USD', price: '1.1000', change: '+0.15%' },
-                  { pair: 'GBP/USD', price: '1.2650', change: '-0.08%' },
-                  { pair: 'USD/JPY', price: '147.85', change: '+0.25%' }
+                  { pair: "EUR/USD", price: "1.1000", change: "+0.15%" },
+                  { pair: "GBP/USD", price: "1.2650", change: "-0.08%" },
+                  { pair: "USD/JPY", price: "147.85", change: "+0.25%" },
                 ].map((item) => (
-                  <div key={item.pair} className="flex items-center justify-between p-3 rounded-lg bg-gray-800/50 hover:bg-gray-800 transition-colors">
+                  <div
+                    key={item.pair}
+                    className="flex items-center justify-between p-3 rounded-lg bg-gray-800/50 hover:bg-gray-800 transition-colors"
+                  >
                     <div>
                       <div className="font-medium">{item.pair}</div>
                       <div className="text-sm text-gray-400">{item.price}</div>
                     </div>
-                    <div className={item.change.startsWith('+') ? 'text-green-500' : 'text-red-500'}>
+                    <div
+                      className={
+                        item.change.startsWith("+")
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }
+                    >
                       {item.change}
                     </div>
                   </div>
@@ -247,13 +279,18 @@ const Dashboard: React.FC = () => {
             <CardContent>
               <div className="space-y-4">
                 {[
-                  { type: 'Buy Limit', price: '1.0950', size: '100,000' },
-                  { type: 'Sell Stop', price: '1.1050', size: '75,000' },
+                  { type: "Buy Limit", price: "1.0950", size: "100,000" },
+                  { type: "Sell Stop", price: "1.1050", size: "75,000" },
                 ].map((order, index) => (
-                  <div key={index} className="p-3 rounded-lg bg-gray-800/50 hover:bg-gray-800 transition-colors">
+                  <div
+                    key={index}
+                    className="p-3 rounded-lg bg-gray-800/50 hover:bg-gray-800 transition-colors"
+                  >
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-medium">{order.type}</span>
-                      <span className="text-sm text-gray-400">{order.size}</span>
+                      <span className="text-sm text-gray-400">
+                        {order.size}
+                      </span>
                     </div>
                     <div className="text-lg font-mono">{order.price}</div>
                   </div>
