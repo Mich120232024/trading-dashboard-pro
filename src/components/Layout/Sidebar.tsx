@@ -28,9 +28,8 @@ const navigation = [
     path: "/analytics",
     icon: DocumentChartBarIcon,
     children: [
-      { name: "Performance", path: "/analytics/performance" },
-      { name: "Risk", path: "/analytics/risk" },
       { name: "Portfolio", path: "/analytics/portfolio" },
+      { name: "Risk", path: "/analytics/risk" },
     ],
   },
 ];

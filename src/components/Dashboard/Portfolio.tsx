@@ -1,6 +1,15 @@
-import React, { useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import React, { useState } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Position {
   symbol: string;
@@ -14,31 +23,23 @@ interface Position {
 const Portfolio: React.FC = () => {
   const [positions] = useState<Position[]>([
     {
-      symbol: 'AAPL',
+      symbol: "AAPL",
       quantity: 100,
       entryPrice: 150,
       currentPrice: 175,
       pnl: 2500,
       allocation: 25,
     },
-    {
-      symbol: 'MSFT',
-      quantity: 50,
-      entryPrice: 280,
-      currentPrice: 310,
-      pnl: 1500,
-      allocation: 20,
-    },
-    // Add more mock positions as needed
+    // Add more positions...
   ]);
 
   const performanceData = [
-    { date: '2024-01', value: 100000 },
-    { date: '2024-02', value: 105000 },
-    { date: '2024-03', value: 108000 },
-    { date: '2024-04', value: 112000 },
-    { date: '2024-05', value: 109000 },
-    { date: '2024-06', value: 115000 },
+    { date: "2024-01", value: 100000 },
+    { date: "2024-02", value: 105000 },
+    { date: "2024-03", value: 108000 },
+    { date: "2024-04", value: 112000 },
+    { date: "2024-05", value: 109000 },
+    { date: "2024-06", value: 115000 },
   ];
 
   return (
@@ -89,15 +90,27 @@ const Portfolio: React.FC = () => {
                 {positions.map((position) => (
                   <tr key={position.symbol} className="border-b">
                     <td className="px-4 py-2">{position.symbol}</td>
-                    <td className="px-4 py-2 text-right">{position.quantity}</td>
-                    <td className="px-4 py-2 text-right">${position.entryPrice.toFixed(2)}</td>
-                    <td className="px-4 py-2 text-right">${position.currentPrice.toFixed(2)}</td>
                     <td className="px-4 py-2 text-right">
-                      <span className={position.pnl >= 0 ? 'text-green-500' : 'text-red-500'}>
+                      {position.quantity}
+                    </td>
+                    <td className="px-4 py-2 text-right">
+                      ${position.entryPrice.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-2 text-right">
+                      ${position.currentPrice.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-2 text-right">
+                      <span
+                        className={
+                          position.pnl >= 0 ? "text-green-500" : "text-red-500"
+                        }
+                      >
                         ${position.pnl.toFixed(2)}
                       </span>
                     </td>
-                    <td className="px-4 py-2 text-right">{position.allocation}%</td>
+                    <td className="px-4 py-2 text-right">
+                      {position.allocation}%
+                    </td>
                   </tr>
                 ))}
               </tbody>

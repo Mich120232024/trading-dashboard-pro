@@ -6,6 +6,7 @@ import Analytics from "./pages/Analytics";
 import TimeSeriesAnalysis from "./pages/TimeSeriesAnalysis";
 import FXPortfolio from "./pages/FXPortfolio";
 import PowerBIAnalytics from "./pages/PowerBIAnalytics";
+import Portfolio from "./components/Dashboard/Portfolio";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/timeseries" element={<TimeSeriesAnalysis />} />
           <Route path="/fx-portfolio" element={<FXPortfolio />} />
           <Route path="/powerbi" element={<PowerBIAnalytics />} />
+          <Route path="/analytics/portfolio" element={<Portfolio />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </MainLayout>
