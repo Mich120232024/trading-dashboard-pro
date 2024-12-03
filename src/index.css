@@ -56,9 +56,7 @@ body {
 
 /* Card Styles */
 .card-modern {
-  background: var(--card-bg);
-  border-radius: 0.5rem;
-  padding: 1rem;
+  @apply bg-card-bg rounded-lg p-6;
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -69,7 +67,9 @@ body {
 
 /* Button Styles */
 .btn-primary {
-  @apply px-4 py-2 rounded-lg transition-all duration-200;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
   background: rgb(var(--accent-orange));
   color: rgb(var(--text-primary));
 }
@@ -106,14 +106,16 @@ body {
 
 /* Alerts and Indicators */
 .alert-success {
-  @apply rounded-lg p-4;
+  border-radius: 0.5rem;
+  padding: 1rem;
   background: rgba(var(--success), 0.1);
   border: 1px solid rgba(var(--success), 0.2);
   color: rgb(var(--success));
 }
 
 .alert-warning {
-  @apply rounded-lg p-4;
+  border-radius: 0.5rem;
+  padding: 1rem;
   background: rgba(var(--warning), 0.1);
   border: 1px solid rgba(var(--warning), 0.2);
   color: rgb(var(--warning));
@@ -235,110 +237,83 @@ body {
 
 /* Sidebar Styles */
 .sidebar {
-  background: var(--bg-color);
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  @apply bg-bg-color p-4 flex flex-col gap-4;
   transition: background-color 0.3s ease-in-out;
 }
 
 .sidebar a {
-  text-decoration: none;
-  color: var(--text-color);
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  @apply text-text-color p-2 rounded-lg;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .sidebar a:hover {
-  background-color: var(--hover-color);
+  @apply bg-hover-color;
 }
 
 /* Main Content Styles */
 .main-content {
-  padding: 1rem; /* Reduce padding */
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
-  gap: 1rem; /* Reduce gap between components */
+  @apply p-4 grid grid-cols-1 md:grid-cols-3 gap-4;
   overflow-y: auto;
   transition: padding 0.3s ease-in-out;
 }
 
 /* Dashboard Header Styles */
 .dashboard-header {
-  grid-column: span 12;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--muted-text-color);
+  @apply col-span-12 flex items-center justify-between pb-4 border-b border-muted-text-color;
   transition: border-bottom 0.3s ease-in-out;
 }
 
 .dashboard-header h1 {
-  font-size: 2rem;
-  color: var(--text-color);
+  @apply text-2xl font-bold text-text-color;
   transition: color 0.3s ease-in-out;
 }
 
 /* Metrics Styles */
 .dashboard-metric {
-  background: var(--card-bg);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  text-align: center;
+  @apply bg-card-bg rounded-lg p-4 text-center;
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 /* Chart Card Styles */
 .chart-card {
-  background: var(--card-bg);
-  border-radius: 0.5rem;
-  padding: 1rem;
+  @apply bg-card-bg rounded-lg p-4;
   min-height: 300px;
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 /* Table Styles */
 .table-container {
-  background: var(--card-bg);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  overflow-x: auto;
+  @apply bg-card-bg rounded-lg p-4 overflow-x-auto;
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
+  @apply w-full border-collapse;
 }
 
 table th,
 table td {
-  padding: 0.75rem;
-  text-align: left;
-  border-bottom: 1px solid var(--muted-text-color);
+  @apply p-3 text-left border-b border-muted-text-color;
   transition: border-bottom 0.3s ease-in-out;
 }
 
 table th {
-  color: var(--muted-text-color);
+  @apply text-muted-text-color;
   transition: color 0.3s ease-in-out;
 }
 
 table tr:hover {
-  background-color: var(--hover-color);
+  @apply bg-hover-color;
   transition: background-color 0.3s ease-in-out;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .main-content {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust columns for smaller screens */
+    @apply grid-cols-1;
   }
 
   .chart-card {
-    grid-column: span 1; /* Charts adjust to smaller sizes */
+    @apply col-span-1;
   }
 }
